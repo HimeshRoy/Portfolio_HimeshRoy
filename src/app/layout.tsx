@@ -9,69 +9,118 @@ import { SeasonalCursor } from "@/components/cursor/SeasonalCursor";
 import { PersonSchema } from "@/components/seo/PersonSchema";
 import "./globals.css";
 
+const siteUrl = "https://himeshroy.vercel.app";
+
 export const metadata: Metadata = {
-  metadataBase: new URL("https://himeshroy.vercel.app"),
+  metadataBase: new URL(siteUrl),
+
   title: {
-    default: "Himesh Roy — Full Stack Developer",
+    default:
+      "Himesh Roy | Full-Stack Developer & AI/ML Student",
     template: "%s | Himesh Roy",
   },
+
   description:
-    "Himesh Roy is a Full Stack Developer and AI/ML enthusiast building modern web applications, intelligent experiences, and thoughtful digital products.",
+    "Himesh Roy is a B.Tech CSE AI & ML student at Geeta University, IEEE Student Member and Full-Stack Developer building modern web applications and AI-powered products with React, Next.js, Node.js, TypeScript, Python, and PostgreSQL.",
+
   keywords: [
     "Himesh Roy",
-    "Himesh Roy Developer",
-    "Himesh Roy Portfolio",
+    "Himesh Roy developer",
+    "Himesh Roy portfolio",
+    "Himesh Roy Geeta University",
+    "Himesh Roy AI ML",
     "Full Stack Developer",
-    "Web Developer",
+    "Full Stack Developer India",
+    "AI ML Student",
+    "IEEE Student Member",
+    "IEEE Student Member Geeta University",
+    "IEEE Geeta University",
+    "IEEE Geeta University Webmaster",
+    "IEEE Geeta University student member",
+    "AI ML Developer",
     "React Developer",
     "Next.js Developer",
-    "AI Developer",
-    "AI/ML",
-    "JavaScript",
-    "TypeScript",
-    "Three.js",
+    "Node.js Developer",
+    "TypeScript Developer",
+    "Python Developer",
     "Software Developer",
+    "Web Developer",
   ],
+
   authors: [
     {
       name: "Himesh Roy",
-      url: "https://himeshroy.vercel.app",
+      url: siteUrl,
     },
   ],
+
   creator: "Himesh Roy",
   publisher: "Himesh Roy",
+
+  category: "technology",
+
+  applicationName: "Himesh Roy Portfolio",
+
+  referrer: "origin-when-cross-origin",
+
   verification: {
     google: "QgN7t8bTtWCytlK9vJ8R9E8Q91ijRRVIkhcBMqVZlks",
   },
+
   alternates: {
-    canonical: "https://himeshroy.vercel.app",
+    canonical: siteUrl,
   },
+
+  icons: {
+    icon: [
+      {
+        url: "/icon.png",
+        type: "image/png",
+      },
+    ],
+    shortcut: "/icon.png",
+    apple: "/icon.png",
+  },
+
   openGraph: {
-    title: "Himesh Roy — Full Stack Developer",
-    description:
-      "Himesh Roy is a Full Stack Developer and AI/ML enthusiast building modern web applications and digital experiences.",
-    url: "https://himeshroy.vercel.app",
-    siteName: "Himesh Roy",
     type: "website",
     locale: "en_IN",
+    url: siteUrl,
+    siteName: "Himesh Roy",
+
+    title:
+      "Himesh Roy | Full-Stack Developer & AI/ML Student",
+
+    description:
+      "Portfolio of Himesh Roy — B.Tech CSE AI & ML student, IEEE Student Member, Full-Stack Developer, and builder of modern web applications and AI-powered products.",
+
     images: [
       {
         url: "/og-image.png",
         width: 1200,
         height: 630,
-        alt: "Himesh Roy — Full Stack Developer",
+        alt:
+          "Himesh Roy — Full-Stack Developer & AI/ML Student",
       },
     ],
   },
+
   twitter: {
     card: "summary_large_image",
-    title: "Himesh Roy — Full Stack Developer",
+
+    title:
+      "Himesh Roy | Full-Stack Developer & AI/ML Student",
+
     description:
-      "Himesh Roy is a Full Stack Developer and AI/ML enthusiast building modern web applications and digital experiences.",
+      "Himesh Roy's portfolio — Full-Stack Developer and B.Tech CSE AI & ML student building modern web applications and AI-powered products.",
+
+    images: ["/og-image.png"],
   },
+
   robots: {
     index: true,
     follow: true,
+
     googleBot: {
       index: true,
       follow: true,
@@ -92,9 +141,11 @@ export default function RootLayout({
       <body>
         <ThemeProvider>
           <PersonSchema />
+
           <SeasonalCursor />
           <MonsoonScene />
           <Atmosphere />
+
           <SiteHeader />
 
           <main>
