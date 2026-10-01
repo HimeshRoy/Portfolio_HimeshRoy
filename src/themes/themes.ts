@@ -128,4 +128,4 @@ export const themes: Record<string, ThemeDefinition> = {
   },
 };
 
-export const defaultTheme = "monsoon";
+export const defaultTheme = "tech";
