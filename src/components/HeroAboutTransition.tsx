@@ -17,16 +17,15 @@ export default function HeroAboutTransition({
   hero,
   about,
 }: Props) {
-  const containerRef = useRef<HTMLDivElement>(null);
-  const heroRef = useRef<HTMLDivElement>(null);
+  const sceneRef = useRef<HTMLElement>(null);
   const aboutRef = useRef<HTMLDivElement>(null);
 
   useGSAP(
     () => {
-      const heroElement = heroRef.current;
+      const scene = sceneRef.current;
       const aboutElement = aboutRef.current;
 
-      if (!heroElement || !aboutElement) return;
+      if (!scene || !aboutElement) return;
 
       gsap.set(aboutElement, {
         yPercent: 100,
@@ -36,36 +35,41 @@ export default function HeroAboutTransition({
         yPercent: 0,
         ease: "none",
         scrollTrigger: {
-          trigger: containerRef.current,
+          trigger: scene,
           start: "top top",
-          end: "+=100%",
-          pin: heroElement,
-          scrub: 1,
-          anticipatePin: 1,
+          end: "bottom bottom",
+          scrub: 0.7,
           invalidateOnRefresh: true,
         },
       });
     },
     {
-      scope: containerRef,
+      scope: sceneRef,
     }
   );
 
   return (
-    <div ref={containerRef} className="relative w-full">
-      <div
-        ref={heroRef}
-        className="relative z-10 h-svh w-full"
-      >
-        {hero}
-      </div>
+    <section
+      ref={sceneRef}
+      className="relative h-[200svh] w-full"
+    >
+      {/* Sticky viewport */}
+      <div className="sticky top-0 h-svh w-full overflow-hidden">
 
-      <div
-        ref={aboutRef}
-        className="relative z-20 -mt-[100svh] w-full bg-[#050505] will-change-transform"
-      >
-        {about}
+        {/* Hero stays stationary */}
+        <div className="absolute inset-0 z-10">
+          {hero}
+        </div>
+
+        {/* About slides over Hero */}
+        <div
+          ref={aboutRef}
+          className="absolute inset-0 z-20 h-full w-full overflow-y-auto bg-[#050505]"
+        >
+          {about}
+        </div>
+
       </div>
-    </div>
+    </section>
   );
 }

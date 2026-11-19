@@ -41,32 +41,19 @@ export function Hero() {
     <section
       onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseLeave}
-      className="relative flex h-svh min-h-[650px] w-full items-stretch overflow-hidden bg-[#050505] pt-24 lg:h-screen lg:min-h-[700px] lg:pt-28"
+      className="relative flex h-svh w-full items-stretch overflow-hidden bg-[#050505] pt-24 lg:pt-28"
     >
-      {/* Charcoal watercolor / ink-wash backdrop */}
+      {/* Actual Watercolor Texture Background */}
       <div
         aria-hidden="true"
-        className="pointer-events-none absolute inset-0 overflow-hidden"
-      >
-        <div className="ink-backdrop absolute inset-0" />
-        <svg
-          viewBox="0 0 1440 900"
-          fill="none"
-          preserveAspectRatio="xMidYMid slice"
-          className="absolute inset-0 h-full w-full opacity-[0.38]"
-        >
-          <defs>
-            <filter id="ink-blur" x="-20%" y="-20%" width="140%" height="140%">
-              <feGaussianBlur stdDeviation="24" />
-            </filter>
-          </defs>
-          <g filter="url(#ink-blur)" fill="#27272a">
-            <path d="M210,160 C340,70 590,40 820,90 C1050,140 1280,80 1380,220 C1450,320 1340,560 1220,690 C1100,820 820,860 540,810 C260,760 110,640 90,450 C75,310 120,225 210,160 Z" />
-            <circle cx="980" cy="340" r="240" fill="#323238" opacity="0.65" />
-            <circle cx="380" cy="540" r="190" fill="#1f1f23" opacity="0.7" />
-          </g>
-        </svg>
-      </div>
+        className="pointer-events-none absolute inset-0 z-0"
+        style={{
+          backgroundImage: 'url("/images/hero-ink-bg.png")',
+          backgroundSize: "cover",
+          backgroundPosition: "center center",
+          backgroundRepeat: "no-repeat",
+        }}
+      />
 
       {/* Main Split Grid */}
       <div className="relative z-10 mx-auto grid w-full max-w-7xl grid-cols-1 items-center gap-10 px-6 sm:px-10 lg:grid-cols-12 lg:gap-8 lg:px-16">
@@ -89,7 +76,7 @@ export function Hero() {
               delay: 0.08,
               ease: [0.16, 1, 0.3, 1],
             }}
-            className="font-display text-4xl font-extrabold uppercase leading-[1.03] tracking-[-0.03em] text-white sm:text-5xl lg:text-[3.75rem] xl:text-[4.25rem]"
+            className="font-display text-4xl font-extrabold uppercase leading-[1.03] tracking-[-0.01em] text-white sm:text-5xl lg:text-[3.75rem] xl:text-[4.25rem]"
           >
             I&apos;M A FULL-STACK
             <br />
@@ -137,7 +124,7 @@ export function Hero() {
             className="relative flex h-full w-full items-end justify-center lg:justify-end"
           >
             <Image
-              src="/himesh-avatar-3d.png"
+              src="/images/himesh-avatar-3d.png"
               alt="3D avatar portrait of Himesh Roy"
               width={640}
               height={720}
