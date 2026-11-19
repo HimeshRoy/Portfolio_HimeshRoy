@@ -1,9 +1,9 @@
+
 import type { Metadata } from "next";
 import { Inter, Plus_Jakarta_Sans } from "next/font/google";
 import { SiteFooter } from "@/components/layout/SiteFooter";
 import { SiteHeader } from "@/components/layout/SiteHeader";
 import { PageTransition } from "@/components/layout/PageTransition";
-import { PersonSchema } from "@/components/seo/PersonSchema";
 import "./globals.css";
 
 const inter = Inter({
@@ -20,6 +20,14 @@ const plusJakarta = Plus_Jakarta_Sans({
 });
 
 const siteUrl = "https://himeshroy.vercel.app";
+const ogImage = "/og-image.png";
+
+const socialProfiles = [
+  "https://www.linkedin.com/in/himeshroy",
+  "https://github.com/himeshroy",
+  "https://x.com/_himesh_roy",
+  "https://www.instagram.com/_himesh_roy/",
+];
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
@@ -30,7 +38,7 @@ export const metadata: Metadata = {
   },
 
   description:
-    "Himesh Roy is a B.Tech CSE AI & ML student at Geeta University, IEEE Student Member and Full-Stack Developer building modern web applications and AI-powered products with React, Next.js, Node.js, TypeScript, Python, and PostgreSQL.",
+    "Himesh Roy is a B.Tech CSE (AI & ML) student at Geeta University, IEEE Student Member and Full-Stack Developer building modern web applications, intelligent systems, and creative digital experiences.",
 
   keywords: [
     "Himesh Roy",
@@ -38,15 +46,20 @@ export const metadata: Metadata = {
     "Himesh Roy portfolio",
     "Himesh Roy Geeta University",
     "Himesh Roy AI ML",
+    "Himesh Roy Instagram",
+    "Himesh Roy X",
+    "Himesh Roy Twitter",
+    "Himesh Roy LinkedIn",
+    "Himesh Roy GitHub",
+    "Himesh Roy social media",
+    "@_himesh_roy",
     "Full Stack Developer",
     "Full Stack Developer India",
+    "AI ML Developer",
     "AI ML Student",
     "IEEE Student Member",
     "IEEE Student Member Geeta University",
     "IEEE Geeta University",
-    "IEEE Geeta University Webmaster",
-    "IEEE Geeta University student member",
-    "AI ML Developer",
     "React Developer",
     "Next.js Developer",
     "Node.js Developer",
@@ -88,25 +101,39 @@ export const metadata: Metadata = {
     locale: "en_IN",
     url: siteUrl,
     siteName: "Himesh Roy",
-    title: "Himesh Roy | Full-Stack Developer & AI/ML Student",
+
+    title: "Himesh Roy | Full-Stack & AI Developer",
+
     description:
-      "Portfolio of Himesh Roy — B.Tech CSE AI & ML student, IEEE Student Member, Full-Stack Developer, and builder of modern web applications and AI-powered products.",
+      "Explore Himesh Roy's portfolio — Full-Stack Developer, AI/ML student, IEEE Student Member, and creator of modern digital experiences.",
+
     images: [
       {
-        url: "/og-image.png",
+        url: ogImage,
         width: 1200,
         height: 630,
-        alt: "Himesh Roy — Full-Stack Developer & AI/ML Student",
+        type: "image/png",
+        alt: "Himesh Roy — Full-Stack & AI Developer",
       },
     ],
   },
 
   twitter: {
     card: "summary_large_image",
-    title: "Himesh Roy | Full-Stack Developer & AI/ML Student",
+    title: "Himesh Roy | Full-Stack & AI Developer",
+
     description:
-      "Himesh Roy's portfolio — Full-Stack Developer and B.Tech CSE AI & ML student building modern web applications and AI-powered products.",
-    images: ["/og-image.png"],
+      "Building full-stack applications, intelligent systems, and creative digital experiences.",
+
+    images: [
+      {
+        url: ogImage,
+        alt: "Himesh Roy — Full-Stack & AI Developer",
+      },
+    ],
+
+    creator: "@_himesh_roy",
+    site: "@_himesh_roy",
   },
 
   robots: {
@@ -122,6 +149,31 @@ export const metadata: Metadata = {
   },
 };
 
+const personSchema = {
+  "@context": "https://schema.org",
+  "@type": "Person",
+  name: "Himesh Roy",
+  url: siteUrl,
+  image: `${siteUrl}/images/himesh-avatar-3d.png`,
+  jobTitle: "Full-Stack Developer",
+  description:
+    "B.Tech CSE (AI & ML) student at Geeta University, IEEE Student Member and Full-Stack Developer building modern web applications and intelligent systems.",
+  email: "himeshroy.cse@gmail.com",
+  sameAs: socialProfiles,
+  knowsAbout: [
+    "Full-Stack Development",
+    "Artificial Intelligence",
+    "Machine Learning",
+    "React",
+    "Next.js",
+    "Node.js",
+    "TypeScript",
+    "Python",
+    "PostgreSQL",
+    "Web Development",
+  ],
+};
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -133,11 +185,19 @@ export default function RootLayout({
       className={`${inter.variable} ${plusJakarta.variable} dark`}
     >
       <body className="bg-[#050505] text-white font-sans antialiased selection:bg-white selection:text-[#050505]">
-        <PersonSchema />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify(personSchema).replace(/</g, "\\u003c"),
+          }}
+        />
+
         <SiteHeader />
+
         <main className="min-h-screen">
           <PageTransition>{children}</PageTransition>
         </main>
+
         <SiteFooter />
       </body>
     </html>
