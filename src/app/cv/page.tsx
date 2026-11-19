@@ -12,6 +12,30 @@ const highlights = [
   "Python",
 ];
 
+const snapshot = [
+  { label: "Education", value: "B.Tech CSE · AI & ML" },
+  { label: "Experience", value: "Full Stack Intern" },
+  { label: "Location", value: "Panipat · India" },
+];
+
+const educationHistory = [
+  {
+    period: "2025 — Present",
+    degree: "B.Tech in CSE with Specialization in AI & ML",
+    institution: "Geeta University, Panipat",
+  },
+  {
+    period: "2023 — 2025",
+    degree: "Higher Secondary — Science (PCM)",
+    institution: "Nirmaan Vidya Jyoti School, Siliguri",
+  },
+  {
+    period: "2017 — 2023",
+    degree: "Secondary Education",
+    institution: "Caesar School, Malbazar",
+  },
+];
+
 const skills = [
   "HTML5",
   "CSS / Tailwind",
@@ -48,27 +72,6 @@ const projects = [
   },
 ];
 
-const strengths = [
-  {
-    number: "01",
-    title: "Full Stack Development",
-    description:
-      "Building responsive and scalable web applications across frontend and backend technologies.",
-  },
-  {
-    number: "02",
-    title: "AI & Machine Learning",
-    description:
-      "Developing technical knowledge in artificial intelligence and machine learning alongside software development.",
-  },
-  {
-    number: "03",
-    title: "Project Driven Learning",
-    description:
-      "Learning through practical projects, experimentation, hackathons, and hands-on development.",
-  },
-];
-
 const certifications = [
   "Cisco C++ Essentials 1 & Essentials 2",
   "CSS Certificate — HackerRank",
@@ -83,808 +86,386 @@ const achievements = [
 
 export default function CVPage() {
   return (
-    <main
-      className="relative min-h-screen overflow-hidden px-6 pb-32 pt-32 sm:px-10 lg:px-16"
-      style={{
-        color: "var(--foreground)",
-      }}
-    >
+    <section className="min-h-screen bg-[#050505] px-6 pb-24 pt-28 text-white sm:px-10 sm:pb-32 sm:pt-32 lg:px-16">
       <div className="mx-auto w-full max-w-7xl">
+        {/* Header */}
         <motion.header
-          initial={{
-            opacity: 0,
-            y: 35,
-          }}
-          animate={{
-            opacity: 1,
-            y: 0,
-          }}
-          transition={{
-            duration: 0.8,
-          }}
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.65, ease: [0.16, 1, 0.3, 1] }}
+          className="border-b border-white/10 pb-12"
         >
-          <div className="flex items-center justify-between">
-            <div className="flex items-center gap-4">
-              <span
-                className="h-px w-12"
-                style={{
-                  backgroundColor: "var(--accent)",
-                }}
-              />
-
-              <span
-                className="text-xs uppercase tracking-[0.35em]"
-                style={{
-                  color: "var(--accent)",
-                }}
-              >
-                Curriculum Vitae
-              </span>
-            </div>
-
-            <span
-              className="hidden text-xs uppercase tracking-[0.25em] sm:block"
-              style={{
-                color: "var(--muted)",
-              }}
-            >
-              Full Stack Developer
-            </span>
-          </div>
-
-          <div className="mt-16 grid gap-12 lg:grid-cols-[1fr_1fr] lg:items-end">
+          <div className="flex flex-col justify-between gap-6 lg:flex-row lg:items-end">
             <div>
-              <span
-                className="text-sm uppercase tracking-[0.25em]"
-                style={{
-                  color: "var(--muted)",
-                }}
-              >
-                Himesh Roy
-              </span>
-
-              <h1
-                className="mt-5 text-6xl font-semibold leading-[0.85] tracking-[-0.06em] sm:text-7xl lg:text-8xl"
-                style={{
-                  color: "var(--foreground)",
-                }}
-              >
-                Full Stack
+              <p className="text-xs font-medium uppercase tracking-[0.25em] text-[#8a8a8e]">
+                Curriculum Vitae · Himesh Roy
+              </p>
+              <h1 className="mt-3 font-display text-4xl font-extrabold uppercase leading-[1.02] tracking-[-0.03em] text-white sm:text-5xl lg:text-6xl">
+                FULL STACK
                 <br />
-                <span
-                  style={{
-                    color: "var(--primary)",
-                  }}
-                >
-                  Developer.
-                </span>
+                DEVELOPER
               </h1>
             </div>
 
-            <div>
-              <p
-                className="max-w-2xl text-lg leading-8"
-                style={{
-                  color: "var(--muted)",
-                }}
+            <div className="flex flex-wrap items-center gap-4">
+              <a
+                href="/Himesh-Roy-CV.pdf"
+                download
+                className="inline-flex items-center gap-2 rounded-full bg-white px-5 py-2.5 text-xs font-bold uppercase tracking-[0.16em] text-[#050505] transition-opacity hover:opacity-85"
               >
-                B.Tech CSE student specializing in AI & ML, with a strong
-                passion for full stack development. I build responsive,
-                scalable web applications using modern technologies while
-                exploring AI, machine learning, and new ideas through projects
-                and hackathons.
-              </p>
+                <span>Download PDF</span>
+                <span>↓</span>
+              </a>
 
-              <div className="mt-8 flex flex-wrap gap-3">
-                {highlights.map((highlight) => (
-                  <span
-                    key={highlight}
-                    className="border px-4 py-2 text-[10px] uppercase tracking-[0.16em]"
-                    style={{
-                      borderColor: "var(--border)",
-                      color: "var(--muted)",
-                    }}
-                  >
-                    {highlight}
-                  </span>
-                ))}
-              </div>
+              <Link
+                href="/contact"
+                className="inline-flex items-center gap-2 rounded-full border border-white/15 bg-[#111113] px-5 py-2.5 text-xs font-bold uppercase tracking-[0.16em] text-white transition-colors hover:border-white/35"
+              >
+                <span>Contact Me</span>
+                <span>→</span>
+              </Link>
             </div>
+          </div>
+
+          <p className="mt-6 max-w-3xl text-sm leading-7 text-[#8a8a8e] sm:text-base">
+            B.Tech CSE student specializing in AI &amp; ML, with a strong
+            passion for full-stack development. I build responsive, scalable web
+            applications using modern technologies while exploring AI, machine
+            learning, and new ideas through projects and hackathons.
+          </p>
+
+          <div className="mt-6 flex flex-wrap gap-2">
+            {highlights.map((highlight) => (
+              <span
+                key={highlight}
+                className="rounded-full border border-white/10 bg-[#111113] px-3 py-1 text-[10px] font-medium uppercase tracking-[0.16em] text-[#d4d4d8]"
+              >
+                {highlight}
+              </span>
+            ))}
           </div>
         </motion.header>
 
-        <section
-          className="mt-24 border-y py-12"
-          style={{
-            borderColor: "var(--border)",
-          }}
-        >
-          <div className="grid gap-10 sm:grid-cols-3">
-            <div>
-              <span
-                className="text-[10px] uppercase tracking-[0.25em]"
-                style={{
-                  color: "var(--muted)",
-                }}
-              >
-                Education
-              </span>
-
-              <p
-                className="mt-3 text-xl"
-                style={{
-                  color: "var(--foreground)",
-                }}
-              >
-                B.Tech CSE · AI & ML
-              </p>
-            </div>
-
-            <div>
-              <span
-                className="text-[10px] uppercase tracking-[0.25em]"
-                style={{
-                  color: "var(--muted)",
-                }}
-              >
-                Experience
-              </span>
-
-              <p
-                className="mt-3 text-xl"
-                style={{
-                  color: "var(--foreground)",
-                }}
-              >
-                Full Stack Intern
-              </p>
-            </div>
-
-            <div>
-              <span
-                className="text-[10px] uppercase tracking-[0.25em]"
-                style={{
-                  color: "var(--muted)",
-                }}
-              >
-                Location
-              </span>
-
-              <p
-                className="mt-3 text-xl"
-                style={{
-                  color: "var(--foreground)",
-                }}
-              >
-                Panipat · India
-              </p>
-            </div>
-          </div>
-        </section>
-
-        <section className="mt-24 grid gap-16 lg:grid-cols-[0.7fr_1.3fr] lg:gap-24">
-          <div>
-            <span
-              className="text-xs uppercase tracking-[0.3em]"
-              style={{
-                color: "var(--accent)",
+        {/* Snapshot Strip */}
+        <div className="mt-8 grid grid-cols-1 gap-4 sm:grid-cols-3">
+          {snapshot.map((item, index) => (
+            <motion.div
+              key={item.label}
+              initial={{ opacity: 0, y: 16 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{
+                duration: 0.5,
+                delay: 0.06 + index * 0.05,
+                ease: [0.16, 1, 0.3, 1],
               }}
+              className="rounded-2xl border border-white/10 bg-[#111113] p-5"
             >
+              <span className="text-[10px] font-medium uppercase tracking-[0.22em] text-[#8a8a8e]">
+                {item.label}
+              </span>
+              <p className="mt-2 font-display text-lg font-bold text-white">
+                {item.value}
+              </p>
+            </motion.div>
+          ))}
+        </div>
+
+        {/* 01 / Profile */}
+        <div className="mt-16 grid gap-8 border-t border-white/10 pt-14 lg:grid-cols-12 lg:gap-12">
+          <div className="lg:col-span-4">
+            <span className="font-mono text-xs uppercase tracking-[0.22em] text-[#8a8a8e]">
               01 / Profile
             </span>
-
-            <h2
-              className="mt-5 text-4xl font-medium tracking-[-0.04em] sm:text-5xl"
-              style={{
-                color: "var(--foreground)",
-              }}
-            >
-              Building
-              <br />
-              full stack
-              <br />
-              experiences.
+            <h2 className="mt-2 font-display text-2xl font-extrabold uppercase tracking-[-0.02em] text-white sm:text-3xl">
+              BUILDING FULL STACK EXPERIENCES
             </h2>
           </div>
 
-          <div className="max-w-3xl space-y-7 text-base leading-8">
-            <p
-              style={{
-                color: "var(--foreground)",
-              }}
-            >
+          <div className="space-y-4 text-sm leading-7 text-[#8a8a8e] sm:text-base lg:col-span-8">
+            <p className="text-white">
               I am a B.Tech CSE student specializing in Artificial Intelligence
-              and Machine Learning with a strong interest in full stack
+              and Machine Learning with a strong interest in full-stack
               development.
             </p>
-
-            <p
-              style={{
-                color: "var(--muted)",
-              }}
-            >
+            <p>
               I work with modern frontend and backend technologies to build
               responsive and scalable web applications, while continuously
               expanding my knowledge through practical projects.
             </p>
-
-            <p
-              style={{
-                color: "var(--muted)",
-              }}
-            >
+            <p>
               I enjoy participating in hackathons and experimenting with
               technologies that help bridge the gap between design,
               functionality, and real-world problem solving.
             </p>
           </div>
-        </section>
+        </div>
 
-        <section className="mt-24">
-          <div className="mb-12">
-            <span
-              className="text-xs uppercase tracking-[0.3em]"
-              style={{
-                color: "var(--accent)",
-              }}
-            >
+        {/* 02 / Experience */}
+        <div className="mt-16 grid gap-8 border-t border-white/10 pt-14 lg:grid-cols-12 lg:gap-12">
+          <div className="lg:col-span-4">
+            <span className="font-mono text-xs uppercase tracking-[0.22em] text-[#8a8a8e]">
               02 / Experience
             </span>
-
-            <h2
-              className="mt-5 text-4xl font-medium tracking-[-0.04em] sm:text-5xl"
-              style={{
-                color: "var(--foreground)",
-              }}
-            >
-              Professional experience.
+            <h2 className="mt-2 font-display text-2xl font-extrabold uppercase tracking-[-0.02em] text-white sm:text-3xl">
+              PROFESSIONAL EXPERIENCE
             </h2>
           </div>
 
-          <div
-            className="border-t"
-            style={{
-              borderColor: "var(--border)",
-            }}
-          >
-            <motion.div
-              initial={{
-                opacity: 0,
-                y: 20,
-              }}
-              whileInView={{
-                opacity: 1,
-                y: 0,
-              }}
-              viewport={{
-                once: true,
-                amount: 0.2,
-              }}
-              transition={{
-                duration: 0.6,
-              }}
-              className="grid gap-6 border-b py-10 sm:grid-cols-[180px_0.8fr_1.2fr] sm:items-start"
-              style={{
-                borderColor: "var(--border)",
-              }}
+          <div className="lg:col-span-8">
+            <motion.article
+              initial={{ opacity: 0, y: 18 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, amount: 0.2 }}
+              transition={{ duration: 0.55, ease: [0.16, 1, 0.3, 1] }}
+              className="rounded-2xl border border-white/10 bg-[#111113] p-6 sm:p-7"
             >
-              <div>
-                <span
-                  className="text-xs uppercase tracking-[0.2em]"
-                  style={{
-                    color: "var(--muted)",
-                  }}
-                >
-                  June 2026 — July 2026
-                </span>
-
-                <span
-                  className="mt-2 block text-[9px] uppercase tracking-[0.25em]"
-                  style={{
-                    color: "var(--accent)",
-                  }}
-                >
+              <div className="flex flex-wrap items-center justify-between gap-3">
+                <span className="inline-flex items-center gap-2 rounded-full border border-white/15 bg-[#050505] px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.2em] text-white">
+                  <span className="h-1.5 w-1.5 rounded-full bg-white" />
                   Internship
                 </span>
+                <span className="font-mono text-xs uppercase tracking-[0.16em] text-[#8a8a8e]">
+                  June 2026 — July 2026
+                </span>
               </div>
 
-              <div>
-                <h3
-                  className="text-2xl font-medium sm:text-3xl"
-                  style={{
-                    color: "var(--foreground)",
-                  }}
-                >
-                  Full Stack Development Intern
-                </h3>
+              <h3 className="mt-4 font-display text-xl font-bold text-white sm:text-2xl">
+                Full Stack Development Intern
+              </h3>
+              <p className="mt-1 text-xs font-semibold uppercase tracking-[0.18em] text-[#d4d4d8]">
+                World On Networks
+              </p>
 
-                <p
-                  className="mt-2 text-sm uppercase tracking-[0.15em]"
-                  style={{
-                    color: "var(--secondary)",
-                  }}
-                >
-                  World On Networks
-                </p>
-              </div>
-
-              <p
-                className="max-w-xl text-sm leading-7"
-                style={{
-                  color: "var(--muted)",
-                }}
-              >
-                Gained practical hands-on experience in full stack web
+              <p className="mt-4 text-sm leading-7 text-[#8a8a8e]">
+                Gained practical hands-on experience in full-stack web
                 development, specifically working with React.js and Node.js.
-                Built and developed LocalLens, a full stack web application
+                Built and developed LocalLens, a full-stack web application
                 featuring user authentication, location-based features, and
                 secure APIs.
               </p>
-            </motion.div>
+            </motion.article>
           </div>
-        </section>
+        </div>
 
-        <section className="mt-24">
-          <div className="mb-12">
-            <span
-              className="text-xs uppercase tracking-[0.3em]"
-              style={{
-                color: "var(--accent)",
-              }}
-            >
+        {/* 03 / Education */}
+        <div className="mt-16 grid gap-8 border-t border-white/10 pt-14 lg:grid-cols-12 lg:gap-12">
+          <div className="lg:col-span-4">
+            <span className="font-mono text-xs uppercase tracking-[0.22em] text-[#8a8a8e]">
               03 / Education
             </span>
-
-            <h2
-              className="mt-5 text-4xl font-medium tracking-[-0.04em] sm:text-5xl"
-              style={{
-                color: "var(--foreground)",
-              }}
-            >
-              Academic journey.
+            <h2 className="mt-2 font-display text-2xl font-extrabold uppercase tracking-[-0.02em] text-white sm:text-3xl">
+              ACADEMIC JOURNEY
             </h2>
           </div>
 
-          <div
-            className="border-t"
-            style={{
-              borderColor: "var(--border)",
-            }}
-          >
-            <div
-              className="grid gap-6 border-b py-10 sm:grid-cols-[180px_1fr] sm:items-start"
-              style={{
-                borderColor: "var(--border)",
-              }}
-            >
-              <span
-                className="text-xs uppercase tracking-[0.2em]"
-                style={{
-                  color: "var(--muted)",
-                }}
+          <div className="divide-y divide-white/10 rounded-2xl border border-white/10 bg-[#111113] lg:col-span-8">
+            {educationHistory.map((item) => (
+              <div
+                key={item.degree}
+                className="flex flex-col justify-between gap-2 p-5 sm:flex-row sm:items-center sm:p-6"
               >
-                2025 — Present
-              </span>
+                <div>
+                  <h3 className="font-display text-base font-bold text-white sm:text-lg">
+                    {item.degree}
+                  </h3>
+                  <p className="mt-1 text-xs text-[#8a8a8e] sm:text-sm">
+                    {item.institution}
+                  </p>
+                </div>
 
-              <div>
-                <h3
-                  className="text-2xl font-medium sm:text-3xl"
-                  style={{
-                    color: "var(--foreground)",
-                  }}
-                >
-                  B.Tech in CSE with Specialization in AI & ML
-                </h3>
-
-                <p
-                  className="mt-2 text-sm uppercase tracking-[0.15em]"
-                  style={{
-                    color: "var(--secondary)",
-                  }}
-                >
-                  Geeta University, Panipat
-                </p>
+                <span className="shrink-0 font-mono text-xs uppercase tracking-[0.16em] text-[#8a8a8e]">
+                  {item.period}
+                </span>
               </div>
-            </div>
-
-            <div
-              className="grid gap-6 border-b py-10 sm:grid-cols-[180px_1fr] sm:items-start"
-              style={{
-                borderColor: "var(--border)",
-              }}
-            >
-              <span
-                className="text-xs uppercase tracking-[0.2em]"
-                style={{
-                  color: "var(--muted)",
-                }}
-              >
-                2023 — 2025
-              </span>
-
-              <div>
-                <h3
-                  className="text-2xl font-medium sm:text-3xl"
-                  style={{
-                    color: "var(--foreground)",
-                  }}
-                >
-                  Higher Secondary — Science (PCM)
-                </h3>
-
-                <p
-                  className="mt-2 text-sm uppercase tracking-[0.15em]"
-                  style={{
-                    color: "var(--secondary)",
-                  }}
-                >
-                  Nirmaan Vidya Jyoti School, Siliguri
-                </p>
-              </div>
-            </div>
-
-            <div
-              className="grid gap-6 border-b py-10 sm:grid-cols-[180px_1fr] sm:items-start"
-              style={{
-                borderColor: "var(--border)",
-              }}
-            >
-              <span
-                className="text-xs uppercase tracking-[0.2em]"
-                style={{
-                  color: "var(--muted)",
-                }}
-              >
-                2017 — 2023
-              </span>
-
-              <div>
-                <h3
-                  className="text-2xl font-medium sm:text-3xl"
-                  style={{
-                    color: "var(--foreground)",
-                  }}
-                >
-                  Secondary Education
-                </h3>
-
-                <p
-                  className="mt-2 text-sm uppercase tracking-[0.15em]"
-                  style={{
-                    color: "var(--secondary)",
-                  }}
-                >
-                  Caesar School, Malbazar
-                </p>
-              </div>
-            </div>
+            ))}
           </div>
-        </section>
+        </div>
 
-        <section className="mt-24">
-          <div className="mb-12">
-            <span
-              className="text-xs uppercase tracking-[0.3em]"
-              style={{
-                color: "var(--accent)",
-              }}
-            >
+        {/* 04 / Technical Skills */}
+        <div className="mt-16 grid gap-8 border-t border-white/10 pt-14 lg:grid-cols-12 lg:gap-12">
+          <div className="lg:col-span-4">
+            <span className="font-mono text-xs uppercase tracking-[0.22em] text-[#8a8a8e]">
               04 / Skills
             </span>
-
-            <h2
-              className="mt-5 text-4xl font-medium tracking-[-0.04em] sm:text-5xl"
-              style={{
-                color: "var(--foreground)",
-              }}
-            >
-              Technical skills.
+            <h2 className="mt-2 font-display text-2xl font-extrabold uppercase tracking-[-0.02em] text-white sm:text-3xl">
+              TECHNICAL SKILLS
             </h2>
           </div>
 
-          <div className="flex flex-wrap gap-3">
+          <div className="flex flex-wrap content-start gap-2.5 lg:col-span-8">
             {skills.map((skill) => (
               <span
                 key={skill}
-                className="border px-4 py-3 text-[10px] uppercase tracking-[0.16em]"
-                style={{
-                  borderColor: "var(--border)",
-                  color: "var(--muted)",
-                }}
+                className="rounded-xl border border-white/10 bg-[#111113] px-4 py-2.5 text-xs font-medium text-[#d4d4d8] transition-colors hover:border-white/25 hover:text-white"
               >
                 {skill}
               </span>
             ))}
           </div>
-        </section>
+        </div>
 
-        <section className="mt-24">
-          <div className="mb-12">
-            <span
-              className="text-xs uppercase tracking-[0.3em]"
-              style={{
-                color: "var(--accent)",
-              }}
-            >
-              05 / Selected projects
-            </span>
+        {/* 05 / Selected Projects */}
+        <div className="mt-16 border-t border-white/10 pt-14">
+          <div className="flex flex-col justify-between gap-4 sm:flex-row sm:items-end">
+            <div>
+              <span className="font-mono text-xs uppercase tracking-[0.22em] text-[#8a8a8e]">
+                05 / Selected Projects
+              </span>
+              <h2 className="mt-2 font-display text-2xl font-extrabold uppercase tracking-[-0.02em] text-white sm:text-3xl">
+                THINGS I&apos;VE BUILT
+              </h2>
+            </div>
 
-            <h2
-              className="mt-5 text-4xl font-medium tracking-[-0.04em] sm:text-5xl"
-              style={{
-                color: "var(--foreground)",
-              }}
+            <Link
+              href="/projects"
+              className="group relative inline-block w-fit pb-1.5 text-xs font-bold uppercase tracking-[0.16em] text-white"
             >
-              Things I&apos;ve built.
-            </h2>
+              <span>View Full Archive →</span>
+              <span className="absolute inset-x-0 bottom-0 h-[2px] origin-left bg-white transition-transform duration-300 group-hover:scale-x-110" />
+            </Link>
           </div>
 
-          <div
-            className="border-t"
-            style={{
-              borderColor: "var(--border)",
-            }}
-          >
+          <div className="mt-8 grid grid-cols-1 gap-4 md:grid-cols-3">
             {projects.map((project, index) => (
-              <motion.div
+              <motion.article
                 key={project.number}
-                initial={{
-                  opacity: 0,
-                  y: 20,
-                }}
-                whileInView={{
-                  opacity: 1,
-                  y: 0,
-                }}
-                viewport={{
-                  once: true,
-                  amount: 0.2,
-                }}
+                initial={{ opacity: 0, y: 18 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, amount: 0.15 }}
                 transition={{
-                  duration: 0.6,
-                  delay: index * 0.08,
+                  duration: 0.5,
+                  delay: index * 0.06,
+                  ease: [0.16, 1, 0.3, 1],
                 }}
-                className="grid gap-6 border-b py-10 sm:grid-cols-[80px_180px_1fr] sm:items-start"
-                style={{
-                  borderColor: "var(--border)",
-                }}
+                className="flex flex-col justify-between rounded-2xl border border-white/10 bg-[#111113] p-5 transition-colors hover:border-white/25"
               >
-                <span
-                  className="text-xs"
-                  style={{
-                    color: "var(--accent)",
-                  }}
-                >
-                  {project.number}
-                </span>
-
                 <div>
-                  <span
-                    className="text-[10px] uppercase tracking-[0.2em]"
-                    style={{
-                      color: "var(--muted)",
-                    }}
-                  >
-                    {project.period}
-                  </span>
-                </div>
+                  <div className="flex items-center justify-between font-mono text-[11px] text-white/40">
+                    <span>{project.number}</span>
+                    <span>{project.period}</span>
+                  </div>
 
-                <div>
-                  <h3
-                    className="text-2xl font-medium"
-                    style={{
-                      color: "var(--foreground)",
-                    }}
-                  >
+                  <h3 className="mt-4 font-display text-lg font-bold text-white">
                     {project.title}
                   </h3>
 
-                  <p
-                    className="mt-3 max-w-xl text-sm leading-7"
-                    style={{
-                      color: "var(--muted)",
-                    }}
-                  >
+                  <p className="mt-2 text-xs leading-6 text-[#8a8a8e] sm:text-sm">
                     {project.description}
                   </p>
                 </div>
-              </motion.div>
+              </motion.article>
             ))}
           </div>
-        </section>
+        </div>
 
-        <section className="mt-24 grid gap-16 lg:grid-cols-2">
-          <div>
-            <span
-              className="text-xs uppercase tracking-[0.3em]"
-              style={{
-                color: "var(--accent)",
-              }}
-            >
+        {/* 06 / Certifications & 07 / Achievements */}
+        <div className="mt-16 grid grid-cols-1 gap-4 border-t border-white/10 pt-14 lg:grid-cols-2">
+          <div className="rounded-2xl border border-white/10 bg-[#111113] p-6 sm:p-7">
+            <span className="font-mono text-xs uppercase tracking-[0.22em] text-[#8a8a8e]">
               06 / Certifications
             </span>
-
-            <h2
-              className="mt-5 text-4xl font-medium tracking-[-0.04em] sm:text-5xl"
-              style={{
-                color: "var(--foreground)",
-              }}
-            >
-              Certifications.
+            <h2 className="mt-2 font-display text-2xl font-extrabold uppercase tracking-[-0.02em] text-white">
+              CERTIFICATIONS
             </h2>
 
-            <div
-              className="mt-10 border-t"
-              style={{
-                borderColor: "var(--border)",
-              }}
-            >
+            <ul className="mt-6 divide-y divide-white/10 border-t border-white/10">
               {certifications.map((certification) => (
-                <div
+                <li
                   key={certification}
-                  className="border-b py-5 text-sm"
-                  style={{
-                    borderColor: "var(--border)",
-                    color: "var(--muted)",
-                  }}
+                  className="flex items-center gap-3 py-3.5 text-sm text-[#d4d4d8]"
                 >
-                  {certification}
-                </div>
+                  <span className="h-1.5 w-1.5 shrink-0 rounded-full bg-white/50" />
+                  <span>{certification}</span>
+                </li>
               ))}
-            </div>
+            </ul>
           </div>
 
-          <div>
-            <span
-              className="text-xs uppercase tracking-[0.3em]"
-              style={{
-                color: "var(--accent)",
-              }}
-            >
+          <div className="rounded-2xl border border-white/10 bg-[#111113] p-6 sm:p-7">
+            <span className="font-mono text-xs uppercase tracking-[0.22em] text-[#8a8a8e]">
               07 / Achievements
             </span>
-
-            <h2
-              className="mt-5 text-4xl font-medium tracking-[-0.04em] sm:text-5xl"
-              style={{
-                color: "var(--foreground)",
-              }}
-            >
-              Hackathons.
+            <h2 className="mt-2 font-display text-2xl font-extrabold uppercase tracking-[-0.02em] text-white">
+              HACKATHONS
             </h2>
 
-            <div
-              className="mt-10 border-t"
-              style={{
-                borderColor: "var(--border)",
-              }}
-            >
+            <ul className="mt-6 divide-y divide-white/10 border-t border-white/10">
               {achievements.map((achievement) => (
-                <div
+                <li
                   key={achievement}
-                  className="border-b py-5 text-sm leading-7"
-                  style={{
-                    borderColor: "var(--border)",
-                    color: "var(--muted)",
-                  }}
+                  className="flex items-start gap-3 py-3.5 text-sm leading-6 text-[#d4d4d8]"
                 >
-                  {achievement}
-                </div>
+                  <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-white/50" />
+                  <span>{achievement}</span>
+                </li>
               ))}
-            </div>
+            </ul>
           </div>
-        </section>
+        </div>
 
-        <section className="mt-24">
+        {/* 08 / Download CTA */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, amount: 0.2 }}
+          transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+          className="relative mt-16 overflow-hidden rounded-3xl border border-white/10 bg-[#0d0d0f] p-7 sm:p-10 lg:p-12"
+        >
           <div
-            className="relative overflow-hidden border p-8 sm:p-12 lg:p-16"
-            style={{
-              borderColor: "var(--border)",
-              backgroundColor: "var(--surface)",
-            }}
-          >
-            <div
-              className="pointer-events-none absolute -right-24 -top-24 h-72 w-72 rounded-full blur-[100px]"
-              style={{
-                backgroundColor: "var(--glow)",
-              }}
-            />
+            aria-hidden="true"
+            className="pointer-events-none absolute -right-24 -top-24 h-64 w-64 rounded-full bg-white/[0.04] blur-3xl"
+          />
 
-            <div className="relative z-10 flex flex-col gap-8 lg:flex-row lg:items-end lg:justify-between">
-              <div>
-                <span
-                  className="text-xs uppercase tracking-[0.3em]"
-                  style={{
-                    color: "var(--accent)",
-                  }}
-                >
-                  08 / Resume
-                </span>
-
-                <h2
-                  className="mt-5 text-4xl font-medium tracking-[-0.04em] sm:text-5xl"
-                  style={{
-                    color: "var(--foreground)",
-                  }}
-                >
-                  Want the full picture?
-                </h2>
-
-                <p
-                  className="mt-5 max-w-xl text-sm leading-7"
-                  style={{
-                    color: "var(--muted)",
-                  }}
-                >
-                  Download the complete Himesh Roy resume for a detailed
-                  overview of my education, experience, skills, projects,
-                  certifications, and achievements.
-                </p>
-              </div>
-
-              <a
-                href="/Himesh-Roy-CV.pdf"
-                download
-                className="inline-flex w-fit items-center gap-4 border-b pb-3 text-sm uppercase tracking-[0.2em] transition-transform duration-300 hover:translate-x-2"
-                style={{
-                  borderColor: "var(--border)",
-                  color: "var(--foreground)",
-                }}
-              >
-                <span>Download CV</span>
-
-                <span
-                  style={{
-                    color: "var(--accent)",
-                  }}
-                >
-                  ↓
-                </span>
-              </a>
+          <div className="relative z-10 flex flex-col justify-between gap-8 lg:flex-row lg:items-end">
+            <div className="max-w-xl">
+              <span className="font-mono text-xs uppercase tracking-[0.22em] text-[#8a8a8e]">
+                08 / Resume PDF
+              </span>
+              <h2 className="mt-3 font-display text-3xl font-extrabold uppercase leading-[1.03] tracking-[-0.03em] text-white sm:text-4xl">
+                WANT THE FULL PICTURE?
+              </h2>
+              <p className="mt-3 text-sm leading-7 text-[#8a8a8e]">
+                Download the complete Himesh Roy resume for a concise PDF
+                overview of education, experience, skills, projects, and
+                certifications.
+              </p>
             </div>
-          </div>
-        </section>
 
-        <div className="mt-20 flex flex-wrap items-center justify-between gap-6">
+            <a
+              href="/Himesh-Roy-CV.pdf"
+              download
+              className="inline-flex w-fit items-center gap-2 rounded-full bg-white px-6 py-3 text-xs font-bold uppercase tracking-[0.16em] text-[#050505] transition-opacity hover:opacity-85"
+            >
+              <span>Download CV</span>
+              <span>↓</span>
+            </a>
+          </div>
+        </motion.div>
+
+        {/* Bottom Navigation */}
+        <div className="mt-16 flex flex-wrap items-center justify-between gap-6 border-t border-white/10 pt-8">
           <Link
             href="/education"
-            className="text-xs uppercase tracking-[0.2em] transition-transform duration-300 hover:-translate-x-1"
-            style={{
-              color: "var(--muted)",
-            }}
+            className="group inline-flex items-center gap-2 text-xs font-medium uppercase tracking-[0.2em] text-[#8a8a8e] transition-colors hover:text-white"
           >
-            ← Education
+            <span className="transition-transform duration-200 group-hover:-translate-x-1">
+              ←
+            </span>
+            <span>Education</span>
           </Link>
 
           <Link
             href="/contact"
-            className="inline-flex items-center gap-4 border-b pb-3 text-xs uppercase tracking-[0.2em] transition-transform duration-300 hover:translate-x-2"
-            style={{
-              borderColor: "var(--border)",
-              color: "var(--foreground)",
-            }}
+            className="group relative inline-flex items-center gap-2 pb-1.5 text-sm font-bold tracking-wide text-white"
           >
-            <span>Contact me</span>
-
-            <span
-              style={{
-                color: "var(--accent)",
-              }}
-            >
+            <span>Contact Me</span>
+            <span className="transition-transform duration-200 group-hover:translate-x-1">
               →
             </span>
+            <span className="absolute inset-x-0 bottom-0 h-[2px] origin-left bg-white transition-transform duration-300 group-hover:scale-x-110" />
           </Link>
         </div>
       </div>
-
-      <div
-        aria-hidden="true"
-        className="pointer-events-none fixed -bottom-40 left-[-10rem] h-96 w-96 rounded-full blur-[140px]"
-        style={{
-          backgroundColor: "var(--glow)",
-          opacity: 0.35,
-        }}
-      />
-    </main>
+    </section>
   );
 }

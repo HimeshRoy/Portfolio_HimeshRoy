@@ -2,12 +2,7 @@
 
 import { motion } from "framer-motion";
 import Link from "next/link";
-import {
-  useEffect,
-  useRef,
-  useState,
-} from "react";
-
+import { useEffect, useRef, useState } from "react";
 import { LogoutButton } from "@/components/auth/LogoutButton";
 
 type Message = {
@@ -19,66 +14,35 @@ type Message = {
 };
 
 export default function MessagesClient() {
-  const [messages, setMessages] =
-    useState<Message[]>([]);
+  const [messages, setMessages] = useState<Message[]>([]);
+  const [currentUserId, setCurrentUserId] = useState<string | null>(null);
+  const [content, setContent] = useState("");
+  const [loading, setLoading] = useState(true);
+  const [sending, setSending] = useState(false);
+  const [error, setError] = useState("");
+  const [showNewMessage, setShowNewMessage] = useState(false);
 
-  const [currentUserId, setCurrentUserId] =
-    useState<string | null>(null);
-
-  const [content, setContent] =
-    useState("");
-
-  const [loading, setLoading] =
-    useState(true);
-
-  const [sending, setSending] =
-    useState(false);
-
-  const [error, setError] =
-    useState("");
-
-  const [showNewMessage, setShowNewMessage] =
-    useState(false);
-
-  const scrollContainerRef =
-    useRef<HTMLDivElement>(null);
-
-  const messagesEndRef =
-    useRef<HTMLDivElement>(null);
-
-  const shouldScrollRef =
-    useRef(true);
+  const scrollContainerRef = useRef<HTMLDivElement>(null);
+  const messagesEndRef = useRef<HTMLDivElement>(null);
+  const shouldScrollRef = useRef(true);
 
   function isNearBottom() {
-    const element =
-      scrollContainerRef.current;
-
-    if (!element) {
-      return true;
-    }
+    const element = scrollContainerRef.current;
+    if (!element) return true;
 
     return (
-      element.scrollHeight -
-        element.scrollTop -
-        element.clientHeight <
-      100
+      element.scrollHeight - element.scrollTop - element.clientHeight < 100
     );
   }
 
   function scrollToBottom() {
-    messagesEndRef.current?.scrollIntoView({
-      behavior: "smooth",
-    });
-
+    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
     setShowNewMessage(false);
   }
 
   useEffect(() => {
     if (shouldScrollRef.current) {
-      messagesEndRef.current?.scrollIntoView({
-        behavior: "smooth",
-      });
-
+      messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
       setShowNewMessage(false);
       shouldScrollRef.current = false;
     }
@@ -87,37 +51,22 @@ export default function MessagesClient() {
   useEffect(() => {
     async function loadMessages() {
       try {
-        const response = await fetch(
-          "/api/messages",
-          {
-            cache: "no-store",
-          },
-        );
+        const response = await fetch("/api/messages", {
+          cache: "no-store",
+        });
 
-        const data =
-          await response.json();
+        const data = await response.json();
 
         if (!response.ok) {
-          throw new Error(
-            data.error ??
-              "Failed to load messages",
-          );
+          throw new Error(data.error ?? "Failed to load messages");
         }
 
         shouldScrollRef.current = true;
-
-        setMessages(
-          data.messages ?? [],
-        );
-
-        setCurrentUserId(
-          data.currentUserId ?? null,
-        );
-      } catch (error) {
+        setMessages(data.messages ?? []);
+        setCurrentUserId(data.currentUserId ?? null);
+      } catch (err) {
         setError(
-          error instanceof Error
-            ? error.message
-            : "Unable to load messages.",
+          err instanceof Error ? err.message : "Unable to load messages.",
         );
       } finally {
         setLoading(false);
@@ -128,178 +77,97 @@ export default function MessagesClient() {
   }, []);
 
   useEffect(() => {
-    if (!currentUserId) {
-      return;
-    }
+    if (!currentUserId) return;
 
-    const interval = setInterval(
-      async () => {
-        try {
-          const response =
-            await fetch(
-              "/api/messages",
-              {
-                cache: "no-store",
-              },
-            );
+    const interval = setInterval(async () => {
+      try {
+        const response = await fetch("/api/messages", {
+          cache: "no-store",
+        });
 
-          if (!response.ok) {
-            return;
+        if (!response.ok) return;
+
+        const data = await response.json();
+        if (!Array.isArray(data.messages)) return;
+
+        setMessages((current) => {
+          const existingIds = new Set(current.map((message) => message.id));
+          const newMessages = data.messages.filter(
+            (message: Message) => !existingIds.has(message.id),
+          );
+
+          if (newMessages.length === 0) return current;
+
+          const nearBottom = isNearBottom();
+          shouldScrollRef.current = nearBottom;
+
+          if (!nearBottom) {
+            setShowNewMessage(true);
           }
 
-          const data =
-            await response.json();
+          return [...current, ...newMessages];
+        });
+      } catch {}
+    }, 2000);
 
-          if (
-            !Array.isArray(
-              data.messages,
-            )
-          ) {
-            return;
-          }
-
-          setMessages((current) => {
-            const existingIds =
-              new Set(
-                current.map(
-                  (message) =>
-                    message.id,
-                ),
-              );
-
-            const newMessages =
-              data.messages.filter(
-                (message: Message) =>
-                  !existingIds.has(
-                    message.id,
-                  ),
-              );
-
-            if (
-              newMessages.length === 0
-            ) {
-              return current;
-            }
-
-            const nearBottom =
-              isNearBottom();
-
-            shouldScrollRef.current =
-              nearBottom;
-
-            if (!nearBottom) {
-              setShowNewMessage(true);
-            }
-
-            return [
-              ...current,
-              ...newMessages,
-            ];
-          });
-        } catch {}
-      },
-      2000,
-    );
-
-    return () => {
-      clearInterval(interval);
-    };
+    return () => clearInterval(interval);
   }, [currentUserId]);
 
   async function sendMessage() {
-    const trimmed =
-      content.trim();
-
-    if (!trimmed || sending) {
-      return;
-    }
+    const trimmed = content.trim();
+    if (!trimmed || sending) return;
 
     setSending(true);
     setError("");
-
-    shouldScrollRef.current =
-      true;
+    shouldScrollRef.current = true;
 
     try {
-      const response =
-        await fetch(
-          "/api/messages",
-          {
-            method: "POST",
-            headers: {
-              "Content-Type":
-                "application/json",
-            },
-            body: JSON.stringify({
-              content: trimmed,
-            }),
-          },
-        );
+      const response = await fetch("/api/messages", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ content: trimmed }),
+      });
 
-      const data =
-        await response.json();
+      const data = await response.json();
 
       if (!response.ok) {
-        throw new Error(
-          data.error ??
-            "Failed to send message",
-        );
+        throw new Error(data.error ?? "Failed to send message");
       }
 
       setMessages((current) => [
         ...current,
         {
           id: data.message.id,
-          content:
-            data.message.content,
-          isBot:
-            data.message.isBot,
-          senderId:
-            data.message.senderId,
-          createdAt:
-            data.message.createdAt,
+          content: data.message.content,
+          isBot: data.message.isBot,
+          senderId: data.message.senderId,
+          createdAt: data.message.createdAt,
         },
         ...(data.botMessage
           ? [
               {
-                id:
-                  data.botMessage.id,
-                content:
-                  data.botMessage
-                    .content,
-                isBot:
-                  data.botMessage
-                    .isBot,
-                senderId:
-                  data.botMessage
-                    .senderId,
-                createdAt:
-                  data.botMessage
-                    .createdAt,
+                id: data.botMessage.id,
+                content: data.botMessage.content,
+                isBot: data.botMessage.isBot,
+                senderId: data.botMessage.senderId,
+                createdAt: data.botMessage.createdAt,
               },
             ]
           : []),
       ]);
 
       setContent("");
-    } catch (error) {
-      setError(
-        error instanceof Error
-          ? error.message
-          : "Unable to send message.",
-      );
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Unable to send message.");
     } finally {
       setSending(false);
     }
   }
 
-  function handleKeyDown(
-    event: React.KeyboardEvent<HTMLTextAreaElement>,
-  ) {
-    if (
-      event.key === "Enter" &&
-      !event.shiftKey
-    ) {
+  function handleKeyDown(event: React.KeyboardEvent<HTMLTextAreaElement>) {
+    if (event.key === "Enter" && !event.shiftKey) {
       event.preventDefault();
       sendMessage();
     }
@@ -312,491 +180,234 @@ export default function MessagesClient() {
   }
 
   return (
-    <main
-      className="min-h-screen px-6 pb-24 pt-32 sm:px-10 sm:pb-32 lg:px-16"
-      style={{
-        color: "var(--foreground)",
-      }}
-    >
-      <div className="mx-auto w-full max-w-5xl">
-        <div className="flex items-center justify-between gap-6">
-          <div className="flex items-center gap-4">
-            <span
-              className="h-px w-12"
-              style={{
-                backgroundColor:
-                  "var(--accent)",
-              }}
-            />
-
-            <span
-              className="text-xs uppercase tracking-[0.35em]"
-              style={{
-                color: "var(--accent)",
-              }}
-            >
-              Messages
+    <section className="min-h-screen bg-[#050505] px-6 pb-24 pt-28 text-white sm:px-10 sm:pb-32 sm:pt-32 lg:px-16">
+      <div className="mx-auto w-full max-w-6xl">
+        {/* Top Bar */}
+        <div className="flex items-center justify-between gap-4 border-b border-white/10 pb-6">
+          <Link
+            href="/contact"
+            className="group inline-flex items-center gap-2 text-xs font-medium uppercase tracking-[0.2em] text-[#8a8a8e] transition-colors hover:text-white"
+          >
+            <span className="transition-transform duration-200 group-hover:-translate-x-1">
+              ←
             </span>
-          </div>
+            <span>Back to Contact</span>
+          </Link>
 
           <LogoutButton />
         </div>
 
-        <div className="mt-16 grid gap-12 lg:grid-cols-[0.7fr_1.3fr] lg:gap-16">
-          <div>
-            <span
-              className="text-sm uppercase tracking-[0.25em]"
-              style={{
-                color: "var(--muted)",
-              }}
-            >
-              Private conversation
-            </span>
+        {/* Main Split Layout */}
+        <div className="mt-10 grid gap-10 lg:grid-cols-12 lg:gap-12">
+          {/* Left Sticky Editorial Intro */}
+          <div className="lg:sticky lg:top-28 lg:col-span-4 lg:self-start">
+            <p className="text-xs font-medium uppercase tracking-[0.25em] text-[#8a8a8e]">
+              Private Conversation
+            </p>
 
-            <h1
-              className="mt-5 text-5xl font-semibold leading-[0.9] tracking-[-0.06em] sm:text-6xl"
-              style={{
-                color: "var(--foreground)",
-              }}
-            >
-              Let&apos;s
+            <h1 className="mt-3 font-display text-4xl font-extrabold uppercase leading-[1.02] tracking-[-0.03em] text-white sm:text-5xl">
+              LET&apos;S
               <br />
-
-              <span
-                style={{
-                  color: "var(--primary)",
-                }}
-              >
-                talk.
-              </span>
+              TALK.
             </h1>
 
-            <p
-              className="mt-8 max-w-sm text-sm leading-7"
-              style={{
-                color: "var(--muted)",
-              }}
-            >
-              Send me a message directly
-              through the portfolio. I&apos;ll
-              be able to see it and reply from
-              my side.
+            <p className="mt-5 text-sm leading-7 text-[#8a8a8e]">
+              Send me a message directly through the portfolio. I&apos;ll see it
+              in my inbox and reply right here.
             </p>
+
+            <div className="mt-8 rounded-2xl border border-white/10 bg-[#111113] p-5">
+              <div className="flex items-center gap-2.5">
+                <span className="h-2 w-2 rounded-full bg-white" />
+                <span className="text-[11px] font-semibold uppercase tracking-[0.2em] text-white">
+                  Live Thread
+                </span>
+              </div>
+              <p className="mt-2.5 text-xs leading-6 text-[#8a8a8e]">
+                Messages refresh automatically every few seconds—no need to
+                reload the page.
+              </p>
+            </div>
           </div>
 
-          <div
-            className="overflow-hidden rounded-xl border backdrop-blur-xl"
-            style={{
-              borderColor: "var(--border)",
-              background:
-                "color-mix(in srgb, var(--surface) 82%, var(--background))",
-            }}
-          >
-            <div
-              className="flex items-center justify-between border-b px-6 py-5"
-              style={{
-                borderColor:
-                  "var(--border)",
-              }}
-            >
-              <span
-                className="text-[10px] uppercase tracking-[0.3em]"
-                style={{
-                  color: "var(--accent)",
-                }}
-              >
-                Conversation
-              </span>
+          {/* Right Chat Window */}
+          <div className="overflow-hidden rounded-3xl border border-white/10 bg-[#0d0d0f] lg:col-span-8">
+            {/* Chat Header */}
+            <div className="flex items-center justify-between border-b border-white/10 px-6 py-4">
+              <div className="flex items-center gap-3">
+                <span className="flex h-8 w-8 items-center justify-center rounded-full border border-white/15 bg-[#16161a] font-display text-xs font-bold text-white">
+                  HR
+                </span>
+                <div>
+                  <div className="font-display text-sm font-bold text-white">
+                    Himesh Roy
+                  </div>
+                  <div className="text-[11px] text-[#8a8a8e]">
+                    Direct Inbox
+                  </div>
+                </div>
+              </div>
 
-              <span
-                className="text-[9px] uppercase tracking-[0.25em]"
-                style={{
-                  color: "var(--muted)",
-                }}
-              >
-                {messages.length} messages
+              <span className="rounded-full border border-white/10 bg-[#050505] px-3 py-1 font-mono text-[10px] uppercase tracking-[0.18em] text-[#a1a1aa]">
+                {messages.length} {messages.length === 1 ? "msg" : "msgs"}
               </span>
             </div>
 
+            {/* Scrollable Messages */}
             <div
               ref={scrollContainerRef}
               onScroll={handleScroll}
-              className="relative max-h-[600px] min-h-[360px] overflow-y-auto scroll-smooth p-6"
+              className="relative max-h-[540px] min-h-[360px] overflow-y-auto scroll-smooth p-5 sm:p-6"
             >
               {loading ? (
-                <div className="flex items-center gap-3">
-                  <span
-                    className="h-2 w-2 animate-pulse rounded-full"
-                    style={{
-                      backgroundColor:
-                        "var(--accent)",
-                    }}
-                  />
-
-                  <p
-                    className="text-sm"
-                    style={{
-                      color: "var(--muted)",
-                    }}
-                  >
+                <div className="flex h-[300px] items-center justify-center gap-3">
+                  <span className="h-2 w-2 animate-pulse rounded-full bg-white" />
+                  <p className="text-sm text-[#8a8a8e]">
                     Loading conversation...
                   </p>
                 </div>
-              ) : messages.length ===
-                0 ? (
-                <motion.p
-                  initial={{
-                    opacity: 0,
-                    y: 8,
-                  }}
-                  animate={{
-                    opacity: 1,
-                    y: 0,
-                  }}
-                  className="text-sm"
-                  style={{
-                    color: "var(--muted)",
-                  }}
+              ) : messages.length === 0 ? (
+                <motion.div
+                  initial={{ opacity: 0, y: 8 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  className="flex h-[300px] flex-col items-center justify-center text-center"
                 >
-                  Start the conversation.
-                </motion.p>
+                  <p className="font-display text-base font-bold text-white">
+                    No messages yet
+                  </p>
+                  <p className="mt-1.5 max-w-xs text-xs leading-6 text-[#8a8a8e]">
+                    Say hello or share what you&apos;re working on to start the
+                    conversation.
+                  </p>
+                </motion.div>
               ) : (
-                <div className="space-y-5">
-                  {messages.map(
-                    (
-                      message,
-                      index,
-                    ) => {
-                      const isVisitor =
-                        !message.isBot &&
-                        message.senderId ===
-                          currentUserId;
+                <div className="space-y-4">
+                  {messages.map((message, index) => {
+                    const isVisitor =
+                      !message.isBot && message.senderId === currentUserId;
+                    const isAdmin =
+                      !message.isBot && message.senderId !== currentUserId;
 
-                      const isAdmin =
-                        !message.isBot &&
-                        message.senderId !==
-                          currentUserId;
-
-                      return (
-                        <motion.div
-                          key={
-                            message.id
-                          }
-                          initial={{
-                            opacity: 0,
-                            y: 14,
-                            scale: 0.96,
-                          }}
-                          animate={{
-                            opacity: 1,
-                            y: 0,
-                            scale: 1,
-                          }}
-                          transition={{
-                            type: "spring",
-                            stiffness: 260,
-                            damping: 22,
-                            delay:
-                              Math.min(
-                                index *
-                                  0.04,
-                                0.2,
-                              ),
-                          }}
-                          className={`flex ${
-                            isVisitor
-                              ? "justify-end"
-                              : "justify-start"
+                    return (
+                      <motion.div
+                        key={message.id}
+                        initial={{ opacity: 0, y: 12, scale: 0.98 }}
+                        animate={{ opacity: 1, y: 0, scale: 1 }}
+                        transition={{
+                          type: "spring",
+                          stiffness: 280,
+                          damping: 24,
+                          delay: Math.min(index * 0.03, 0.18),
+                        }}
+                        className={`flex ${
+                          isVisitor ? "justify-end" : "justify-start"
+                        }`}
+                      >
+                        <div
+                          className={`flex max-w-[85%] flex-col sm:max-w-[75%] ${
+                            isVisitor ? "items-end" : "items-start"
                           }`}
                         >
+                          <span className="mb-1 px-1 text-[10px] font-medium uppercase tracking-[0.18em] text-[#8a8a8e]">
+                            {message.isBot
+                              ? "Himesh's Assistant"
+                              : isAdmin
+                                ? "Himesh"
+                                : "You"}
+                          </span>
+
                           <div
-                            className={`flex max-w-[85%] flex-col sm:max-w-[75%] ${
+                            className={`rounded-2xl px-4 py-3 text-sm leading-6 whitespace-pre-wrap break-words ${
                               isVisitor
-                                ? "items-end"
-                                : "items-start"
+                                ? "rounded-br-sm bg-white text-[#050505]"
+                                : message.isBot
+                                  ? "rounded-bl-sm border border-dashed border-white/20 bg-[#141418] text-[#e4e4e7]"
+                                  : "rounded-bl-sm border border-white/15 bg-[#16161a] text-white"
                             }`}
                           >
-                            <div
-                              className={`mb-1.5 px-2 text-[8px] uppercase tracking-[0.22em] ${
-                                isVisitor
-                                  ? "text-right"
-                                  : "text-left"
-                              }`}
-                              style={{
-                                color:
-                                  message.isBot
-                                    ? "var(--accent)"
-                                    : isAdmin
-                                      ? "var(--primary)"
-                                      : "var(--muted)",
-                              }}
-                            >
-                              {message.isBot
-                                ? "Himesh's Assistant"
-                                : isAdmin
-                                  ? "Himesh"
-                                  : "You"}
-                            </div>
-
-                            <motion.div
-                              whileHover={{
-                                y: -1,
-                                scale: 1.01,
-                              }}
-                              transition={{
-                                duration: 0.2,
-                              }}
-                              className={`relative px-5 py-3.5 ${
-                                isVisitor
-                                  ? "rounded-[22px] rounded-br-[6px]"
-                                  : "rounded-[22px] rounded-bl-[6px]"
-                              }`}
-                              style={{
-                                background:
-                                  message.isBot
-                                    ? "color-mix(in srgb, var(--surface) 90%, var(--accent))"
-                                    : isVisitor
-                                      ? "var(--accent)"
-                                      : "var(--surface)",
-
-                                border:
-                                  message.isBot
-                                    ? "1px solid color-mix(in srgb, var(--accent) 35%, transparent)"
-                                    : isVisitor
-                                      ? "1px solid color-mix(in srgb, var(--accent) 80%, transparent)"
-                                      : "1px solid var(--border)",
-
-                                boxShadow:
-                                  isVisitor
-                                    ? "0 8px 30px color-mix(in srgb, var(--accent) 18%, transparent)"
-                                    : "0 6px 24px color-mix(in srgb, var(--background) 12%, transparent)",
-                              }}
-                            >
-                              <span
-                                aria-hidden="true"
-                                className={`absolute bottom-0 h-3 w-3 ${
-                                  isVisitor
-                                    ? "right-[-5px]"
-                                    : "left-[-5px]"
-                                }`}
-                                style={{
-                                  background:
-                                    message.isBot
-                                      ? "var(--surface)"
-                                      : isVisitor
-                                        ? "var(--accent)"
-                                        : "var(--surface)",
-
-                                  clipPath:
-                                    isVisitor
-                                      ? "polygon(0 0, 100% 100%, 0 100%)"
-                                      : "polygon(0 100%, 100% 0, 100% 100%)",
-                                }}
-                              />
-
-                              <p
-                                className="text-sm leading-6"
-                                style={{
-                                  color:
-                                    isVisitor
-                                      ? "var(--background)"
-                                      : "var(--foreground)",
-                                }}
-                              >
-                                {
-                                  message.content
-                                }
-                              </p>
-                            </motion.div>
-
-                            <div
-                              className={`mt-1.5 px-2 text-[8px] ${
-                                isVisitor
-                                  ? "text-right"
-                                  : "text-left"
-                              }`}
-                              style={{
-                                color:
-                                  "var(--muted)",
-                              }}
-                            >
-                              {new Date(
-                                message.createdAt,
-                              ).toLocaleTimeString(
-                                "en-IN",
-                                {
-                                  hour: "2-digit",
-                                  minute:
-                                    "2-digit",
-                                  hour12:
-                                    true,
-                                  timeZone:
-                                    "Asia/Kolkata",
-                                },
-                              )}
-                            </div>
+                            {message.content}
                           </div>
-                        </motion.div>
-                      );
-                    },
-                  )}
+
+                          <span className="mt-1 px-1 font-mono text-[10px] text-[#71717a]">
+                            {new Date(message.createdAt).toLocaleTimeString(
+                              "en-IN",
+                              {
+                                hour: "2-digit",
+                                minute: "2-digit",
+                                hour12: true,
+                                timeZone: "Asia/Kolkata",
+                              },
+                            )}
+                          </span>
+                        </div>
+                      </motion.div>
+                    );
+                  })}
                 </div>
               )}
 
-              <div
-                ref={messagesEndRef}
-                aria-hidden="true"
-                className="h-px"
-              />
+              <div ref={messagesEndRef} aria-hidden="true" className="h-px" />
 
               {showNewMessage && (
-                <button
-                  type="button"
-                  onClick={
-                    scrollToBottom
-                  }
-                  className="sticky bottom-4 left-1/2 z-10 mt-4 -translate-x-1/2 rounded-full border px-4 py-2 text-[9px] uppercase tracking-[0.2em] shadow-lg backdrop-blur-xl transition-all duration-300 hover:-translate-y-1"
-                  style={{
-                    borderColor:
-                      "var(--accent)",
-                    background:
-                      "color-mix(in srgb, var(--surface) 92%, var(--background))",
-                    color:
-                      "var(--foreground)",
-                  }}
-                >
-                  New message ↓
-                </button>
+                <div className="sticky bottom-3 mt-4 flex justify-center">
+                  <button
+                    type="button"
+                    onClick={scrollToBottom}
+                    className="rounded-full border border-white/20 bg-[#111113]/95 px-4 py-1.5 text-[11px] font-semibold uppercase tracking-[0.16em] text-white shadow-lg backdrop-blur-md transition-transform hover:-translate-y-0.5"
+                  >
+                    New message ↓
+                  </button>
+                </div>
               )}
             </div>
 
-            <div
-              className="border-t p-6"
-              style={{
-                borderColor:
-                  "var(--border)",
-              }}
-            >
+            {/* Composer */}
+            <div className="border-t border-white/10 bg-[#0a0a0c] p-5 sm:p-6">
               <textarea
                 value={content}
-                onChange={(event) =>
-                  setContent(
-                    event.target.value,
-                  )
-                }
-                onKeyDown={
-                  handleKeyDown
-                }
+                onChange={(event) => setContent(event.target.value)}
+                onKeyDown={handleKeyDown}
                 disabled={sending}
                 maxLength={2000}
-                rows={4}
+                rows={3}
                 placeholder="Write your message..."
-                className="w-full resize-none rounded-lg border p-4 text-sm outline-none transition-colors"
-                style={{
-                  borderColor:
-                    "var(--border)",
-                  backgroundColor:
-                    "var(--background)",
-                  color:
-                    "var(--foreground)",
-                }}
+                className="w-full resize-none rounded-2xl border border-white/10 bg-[#111113] p-4 text-sm text-white placeholder-[#71717a] outline-none transition-colors focus:border-white/30 disabled:opacity-50"
               />
 
-              <div className="mt-3 flex items-center justify-between gap-4">
-                <span
-                  className="text-[9px] uppercase tracking-[0.2em]"
-                  style={{
-                    color: "var(--muted)",
-                  }}
-                >
-                  {content.length}/2000
-                </span>
+              <div className="mt-3 flex flex-wrap items-center justify-between gap-4">
+                <div className="flex items-center gap-3 text-[11px] text-[#71717a]">
+                  <span className="font-mono">{content.length}/2000</span>
+                  <span className="hidden sm:inline">·</span>
+                  <span className="hidden sm:inline">
+                    Enter to send · Shift + Enter for new line
+                  </span>
+                </div>
 
                 <button
                   type="button"
-                  onClick={
-                    sendMessage
-                  }
-                  disabled={
-                    sending ||
-                    !content.trim()
-                  }
-                  className="inline-flex items-center gap-4 rounded-lg border px-5 py-4 text-xs uppercase tracking-[0.2em] transition-all duration-300 hover:translate-x-1 disabled:cursor-not-allowed disabled:opacity-40"
-                  style={{
-                    borderColor:
-                      "var(--border)",
-                    color:
-                      "var(--foreground)",
-                  }}
+                  onClick={sendMessage}
+                  disabled={sending || !content.trim()}
+                  className="inline-flex cursor-pointer items-center gap-2 rounded-full bg-white px-5 py-2.5 text-xs font-bold uppercase tracking-[0.16em] text-[#050505] transition-opacity hover:opacity-85 disabled:cursor-not-allowed disabled:opacity-40"
                 >
-                  <span>
-                    {sending
-                      ? "Sending..."
-                      : "Send message"}
-                  </span>
-
-                  <span
-                    style={{
-                      color:
-                        "var(--accent)",
-                    }}
-                  >
-                    →
-                  </span>
+                  <span>{sending ? "Sending..." : "Send"}</span>
+                  <span>→</span>
                 </button>
               </div>
 
               {error && (
-                <motion.p
-                  initial={{
-                    opacity: 0,
-                    y: -4,
-                  }}
-                  animate={{
-                    opacity: 1,
-                    y: 0,
-                  }}
-                  className="mt-4 text-xs"
-                  style={{
-                    color:
-                      "var(--accent)",
-                  }}
+                <motion.div
+                  initial={{ opacity: 0, y: -4 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  role="alert"
+                  className="mt-4 rounded-xl border border-red-500/25 bg-red-500/10 px-4 py-3 text-xs text-red-300"
                 >
                   {error}
-                </motion.p>
+                </motion.div>
               )}
-
-              <p
-                className="mt-4 text-[9px] uppercase tracking-[0.2em]"
-                style={{
-                  color: "var(--muted)",
-                }}
-              >
-                Press Enter to send ·
-                Shift + Enter for a new line
-              </p>
             </div>
           </div>
         </div>
-
-        <div
-          className="mt-16 border-t pt-8"
-          style={{
-            borderColor: "var(--border)",
-          }}
-        >
-          <Link
-            href="/contact"
-            className="inline-flex items-center gap-3 text-xs uppercase tracking-[0.2em] transition-transform duration-300 hover:-translate-x-1"
-            style={{
-              color: "var(--muted)",
-            }}
-          >
-            <span>←</span>
-            <span>Back to contact</span>
-          </Link>
-        </div>
       </div>
-    </main>
+    </section>
   );
 }
