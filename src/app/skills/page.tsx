@@ -1,297 +1,187 @@
 "use client";
 
-import { motion } from "framer-motion";
-import Link from "next/link";
 import { useState } from "react";
-
+import { AnimatePresence, motion } from "framer-motion";
+import Link from "next/link";
 import { skillGroups } from "@/data/skills";
 
 export default function SkillsPage() {
-  const [activeGroup, setActiveGroup] = useState(
-    skillGroups[0]?.id ?? "",
-  );
+  const [activeGroup, setActiveGroup] = useState(skillGroups[0]?.id ?? "");
 
   const selectedGroup =
-    skillGroups.find(
-      (group) => group.id === activeGroup,
-    ) ?? skillGroups[0];
+    skillGroups.find((group) => group.id === activeGroup) ?? skillGroups[0];
+
+  const totalSkills = skillGroups.reduce(
+    (sum, group) => sum + group.skills.length,
+    0,
+  );
 
   return (
-    <main className="relative min-h-screen px-6 pb-32 pt-32 sm:px-10 lg:px-16">
+    <section className="min-h-screen bg-[#050505] px-6 pb-24 pt-28 text-white sm:px-10 sm:pb-32 sm:pt-32 lg:px-16">
       <div className="mx-auto w-full max-w-7xl">
         {/* Header */}
         <motion.header
-          initial={{
-            opacity: 0,
-            y: 30,
-          }}
-          animate={{
-            opacity: 1,
-            y: 0,
-          }}
-          transition={{
-            duration: 0.8,
-          }}
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.65, ease: [0.16, 1, 0.3, 1] }}
+          className="flex flex-col justify-between gap-6 border-b border-white/10 pb-10 lg:flex-row lg:items-end"
         >
-          <div className="flex items-center gap-4">
-            <span
-              className="h-px w-12"
-              style={{
-                backgroundColor: "var(--accent)",
-              }}
-            />
-
-            <span
-              className="text-xs uppercase tracking-[0.35em]"
-              style={{
-                color: "var(--accent)",
-              }}
-            >
-              Skills
-            </span>
-          </div>
-
-          <div className="mt-12 grid gap-10 lg:grid-cols-[1fr_1.2fr] lg:items-end">
-            <h1
-              className="text-6xl font-semibold leading-[0.85] tracking-[-0.06em] sm:text-7xl lg:text-8xl"
-              style={{
-                color: "var(--foreground)",
-              }}
-            >
-              What I
-              <br />
-              <span
-                style={{
-                  color: "var(--primary)",
-                }}
-              >
-                build with.
-              </span>
+          <div className="max-w-2xl">
+            <p className="text-xs font-medium uppercase tracking-[0.25em] text-[#8a8a8e]">
+              Skills · {totalSkills} Technologies
+            </p>
+            <h1 className="mt-3 font-display text-4xl font-extrabold uppercase leading-[1.02] tracking-[-0.03em] text-white sm:text-5xl lg:text-6xl">
+              WHAT I BUILD WITH
             </h1>
-
-            <p
-              className="max-w-2xl text-lg leading-8"
-              style={{
-                color: "var(--muted)",
-              }}
-            >
-              Technologies, languages, frameworks, databases,
-              creative tools, and everything else I use to turn
-              ideas into working digital experiences.
+            <p className="mt-5 text-sm leading-7 text-[#8a8a8e] sm:text-base">
+              Languages, frameworks, databases, and creative tools I use to turn
+              ideas into fast, scalable digital products.
             </p>
           </div>
-        </motion.header>
 
-        {/* Category navigation */}
-        <section className="mt-20">
-          <div className="flex flex-wrap gap-3">
-            {skillGroups.map((group) => {
-              const active = activeGroup === group.id;
-
-              return (
-                <button
-                  key={group.id}
-                  type="button"
-                  onClick={() => setActiveGroup(group.id)}
-                  className="border px-5 py-3 text-[10px] uppercase tracking-[0.2em] transition-all duration-300 sm:text-xs"
-                  style={{
-                    borderColor: active
-                      ? "var(--accent)"
-                      : "var(--border)",
-                    backgroundColor: active
-                      ? "var(--surface)"
-                      : "transparent",
-                    color: active
-                      ? "var(--foreground)"
-                      : "var(--muted)",
-                    boxShadow: active
-                      ? "0 0 30px var(--glow)"
-                      : "none",
-                  }}
-                >
-                  <span
-                    style={{
-                      color: active
-                        ? "var(--accent)"
-                        : "var(--muted)",
-                    }}
-                  >
-                    {group.number}
-                  </span>
-
-                  <span className="mx-2 opacity-40">
-                    ·
-                  </span>
-
-                  {group.title}
-                </button>
-              );
-            })}
-          </div>
-        </section>
-
-        {/* Selected group */}
-        {selectedGroup && (
-          <motion.section
-            key={selectedGroup.id}
-            initial={{
-              opacity: 0,
-              y: 25,
-            }}
-            animate={{
-              opacity: 1,
-              y: 0,
-            }}
-            transition={{
-              duration: 0.45,
-            }}
-            className="mt-16"
-          >
-            <div
-              className="border-y py-8"
-              style={{
-                borderColor: "var(--border)",
-              }}
-            >
-              <div className="flex flex-col gap-5 sm:flex-row sm:items-end sm:justify-between">
-                <div>
-                  <span
-                    className="text-xs uppercase tracking-[0.3em]"
-                    style={{
-                      color: "var(--accent)",
-                    }}
-                  >
-                    {selectedGroup.number}
-                  </span>
-
-                  <h2
-                    className="mt-3 text-4xl font-medium tracking-[-0.04em] sm:text-5xl"
-                    style={{
-                      color: "var(--foreground)",
-                    }}
-                  >
-                    {selectedGroup.title}
-                  </h2>
-                </div>
-
-                <span
-                  className="text-[10px] uppercase tracking-[0.25em]"
-                  style={{
-                    color: "var(--muted)",
-                  }}
-                >
-                  {selectedGroup.skills.length} technologies
-                </span>
-              </div>
-
-              <p
-                className="mt-5 max-w-2xl text-sm leading-7"
-                style={{
-                  color: "var(--muted)",
-                }}
-              >
-                {selectedGroup.description}
-              </p>
-            </div>
-
-            {/* Skills */}
-            <div className="grid border-l border-b sm:grid-cols-2 lg:grid-cols-3">
-              {selectedGroup.skills.map((skill, index) => (
-                <motion.div
-                  key={skill}
-                  initial={{
-                    opacity: 0,
-                    y: 15,
-                  }}
-                  animate={{
-                    opacity: 1,
-                    y: 0,
-                  }}
-                  transition={{
-                    duration: 0.35,
-                    delay: index * 0.06,
-                  }}
-                  className="group relative min-h-40 border-r border-t p-6 transition-colors duration-300 hover:bg-[var(--surface)] sm:p-8"
-                  style={{
-                    borderColor: "var(--border)",
-                  }}
-                >
-                  <div className="flex h-full flex-col justify-between">
-                    <span
-                      className="text-[10px] tracking-[0.2em]"
-                      style={{
-                        color: "var(--accent)",
-                      }}
-                    >
-                      {String(index + 1).padStart(2, "0")}
-                    </span>
-
-                    <div>
-                      <h3
-                        className="text-xl font-medium tracking-tight sm:text-2xl"
-                        style={{
-                          color: "var(--foreground)",
-                        }}
-                      >
-                        {skill}
-                      </h3>
-
-                      <div
-                        className="mt-4 h-px w-8 transition-all duration-300 group-hover:w-16"
-                        style={{
-                          backgroundColor: "var(--accent)",
-                        }}
-                      />
-                    </div>
-                  </div>
-                </motion.div>
-              ))}
-            </div>
-          </motion.section>
-        )}
-
-        {/* Footer navigation */}
-        <div className="mt-20 flex flex-wrap items-center justify-between gap-6">
           <Link
             href="/"
-            className="text-xs uppercase tracking-[0.2em] transition-transform duration-300 hover:-translate-x-1"
-            style={{
-              color: "var(--muted)",
-            }}
+            className="group relative inline-flex w-fit items-center gap-2 pb-1.5 text-sm font-bold tracking-wide text-white"
           >
-            ← Back home
+            <span className="transition-transform duration-200 group-hover:-translate-x-1">
+              ←
+            </span>
+            <span>Back Home</span>
+            <span className="absolute inset-x-0 bottom-0 h-[2px] origin-left bg-white transition-transform duration-300 group-hover:scale-x-110" />
+          </Link>
+        </motion.header>
+
+        {/* Category Selector Pills */}
+        <motion.div
+          initial={{ opacity: 0, y: 14 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.55, delay: 0.08, ease: [0.16, 1, 0.3, 1] }}
+          className="mt-8 flex flex-wrap gap-2"
+        >
+          {skillGroups.map((group) => {
+            const isActive = activeGroup === group.id;
+
+            return (
+              <button
+                key={group.id}
+                type="button"
+                onClick={() => setActiveGroup(group.id)}
+                aria-pressed={isActive}
+                className={`relative rounded-full border px-4 py-2 text-[11px] font-medium uppercase tracking-[0.16em] transition-colors duration-200 ${
+                  isActive
+                    ? "border-white text-[#050505]"
+                    : "border-white/10 bg-[#111113] text-[#8a8a8e] hover:border-white/25 hover:text-white"
+                }`}
+              >
+                {isActive && (
+                  <motion.span
+                    layoutId="skills-page-pill"
+                    className="absolute inset-0 rounded-full bg-white"
+                    transition={{ type: "spring", stiffness: 380, damping: 32 }}
+                  />
+                )}
+                <span className="relative z-10 flex items-center gap-1.5">
+                  <span className="font-mono text-[10px] opacity-60">
+                    {group.number}
+                  </span>
+                  <span>{group.title}</span>
+                </span>
+              </button>
+            );
+          })}
+        </motion.div>
+
+        {/* Selected Group Panel */}
+        <AnimatePresence mode="wait">
+          {selectedGroup && (
+            <motion.div
+              key={selectedGroup.id}
+              initial={{ opacity: 0, y: 16 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -12 }}
+              transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
+              className="mt-10"
+            >
+              {/* Group Summary Banner */}
+              <div className="rounded-2xl border border-white/10 bg-[#0d0d0f] p-6 sm:p-8">
+                <div className="flex flex-col justify-between gap-4 sm:flex-row sm:items-end">
+                  <div>
+                    <span className="font-mono text-xs text-white/40">
+                      {selectedGroup.number}
+                    </span>
+                    <h2 className="mt-1 font-display text-2xl font-extrabold uppercase tracking-tight text-white sm:text-3xl">
+                      {selectedGroup.title}
+                    </h2>
+                  </div>
+
+                  <span className="w-fit rounded-full border border-white/10 bg-[#050505] px-3 py-1 text-[10px] font-medium uppercase tracking-[0.2em] text-[#a1a1aa]">
+                    {selectedGroup.skills.length} Technologies
+                  </span>
+                </div>
+
+                <p className="mt-3 max-w-2xl text-sm leading-7 text-[#8a8a8e]">
+                  {selectedGroup.description}
+                </p>
+
+                {/* Compact Skill Cards */}
+                <div className="mt-8 grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
+                  {selectedGroup.skills.map((skill, index) => (
+                    <motion.div
+                      key={skill}
+                      initial={{ opacity: 0, y: 12 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{
+                        duration: 0.35,
+                        delay: index * 0.04,
+                        ease: [0.16, 1, 0.3, 1],
+                      }}
+                      className="group relative flex min-h-[112px] flex-col justify-between overflow-hidden rounded-2xl border border-white/10 bg-[#111113] p-5 transition-all duration-200 hover:border-white/25 hover:bg-[#16161a]"
+                    >
+                      <div className="flex items-center justify-between">
+                        <span className="font-mono text-[11px] text-white/40">
+                          {String(index + 1).padStart(2, "0")}
+                        </span>
+                        <span className="h-1.5 w-1.5 rounded-full bg-white/25 transition-colors duration-200 group-hover:bg-white" />
+                      </div>
+
+                      <div>
+                        <h3 className="font-display text-lg font-bold tracking-tight text-white">
+                          {skill}
+                        </h3>
+                        <div className="mt-2.5 h-[2px] w-6 bg-white/25 transition-all duration-300 group-hover:w-12 group-hover:bg-white" />
+                      </div>
+                    </motion.div>
+                  ))}
+                </div>
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
+
+        {/* Bottom Navigation */}
+        <div className="mt-14 flex flex-wrap items-center justify-between gap-6 border-t border-white/10 pt-8">
+          <Link
+            href="/about"
+            className="group inline-flex items-center gap-2 text-xs font-medium uppercase tracking-[0.2em] text-[#8a8a8e] transition-colors hover:text-white"
+          >
+            <span className="transition-transform duration-200 group-hover:-translate-x-1">
+              ←
+            </span>
+            <span>About</span>
           </Link>
 
           <Link
             href="/experience"
-            className="inline-flex items-center gap-4 border-b pb-3 text-xs uppercase tracking-[0.2em] transition-transform duration-300 hover:translate-x-2"
-            style={{
-              borderColor: "var(--border)",
-              color: "var(--foreground)",
-            }}
+            className="group relative inline-flex items-center gap-2 pb-1.5 text-sm font-bold tracking-wide text-white"
           >
             <span>Experience</span>
-
-            <span
-              style={{
-                color: "var(--accent)",
-              }}
-            >
+            <span className="transition-transform duration-200 group-hover:translate-x-1">
               →
             </span>
+            <span className="absolute inset-x-0 bottom-0 h-[2px] origin-left bg-white transition-transform duration-300 group-hover:scale-x-110" />
           </Link>
         </div>
       </div>
-
-      {/* Ambient glow */}
-      <div
-        aria-hidden="true"
-        className="pointer-events-none fixed -bottom-40 right-[-10rem] h-96 w-96 rounded-full blur-[140px]"
-        style={{
-          backgroundColor: "var(--glow)",
-          opacity: 0.45,
-        }}
-      />
-    </main>
+    </section>
   );
 }

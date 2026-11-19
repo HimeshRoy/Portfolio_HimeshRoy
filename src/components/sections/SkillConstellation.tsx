@@ -1,60 +1,54 @@
 "use client";
 
-import { motion } from "framer-motion";
 import { useState } from "react";
+import { motion } from "framer-motion";
 
 type SkillConstellationProps = {
   skills: string[];
+  label?: string;
 };
 
 export function SkillConstellation({
   skills,
+  label = "System",
 }: SkillConstellationProps) {
   const [activeSkill, setActiveSkill] = useState<string | null>(null);
+  const radius = 33;
 
   return (
-    <div
-      className="relative min-h-[430px] overflow-hidden border sm:min-h-[520px] lg:min-h-[580px]"
-      style={{
-        borderColor: "var(--border)",
-        background:
-          "linear-gradient(180deg, color-mix(in srgb, var(--surface) 35%, transparent), transparent)",
-      }}
-    >
+    <div className="relative min-h-[380px] overflow-hidden rounded-2xl border border-white/10 bg-[#0d0d0f] sm:min-h-[460px]">
+      {/* Subtle Architectural Grid */}
       <div
         aria-hidden="true"
-        className="absolute inset-0"
+        className="pointer-events-none absolute inset-0"
         style={{
-          backgroundImage: `
-            linear-gradient(
-              to right,
-              var(--border) 1px,
-              transparent 1px
-            ),
-            linear-gradient(
-              to bottom,
-              var(--border) 1px,
-              transparent 1px
-            )
-          `,
-          backgroundSize: "48px 48px",
-          opacity: 0.18,
+          backgroundImage:
+            "linear-gradient(to right, rgba(255,255,255,0.06) 1px, transparent 1px), linear-gradient(to bottom, rgba(255,255,255,0.06) 1px, transparent 1px)",
+          backgroundSize: "44px 44px",
           maskImage:
-            "radial-gradient(circle at center, black 0%, transparent 82%)",
+            "radial-gradient(circle at center, black 10%, transparent 78%)",
           WebkitMaskImage:
-            "radial-gradient(circle at center, black 0%, transparent 82%)",
+            "radial-gradient(circle at center, black 10%, transparent 78%)",
         }}
       />
 
+      {/* Concentric Orbital Rings */}
       <div
         aria-hidden="true"
-        className="pointer-events-none absolute left-1/2 top-1/2 h-56 w-56 -translate-x-1/2 -translate-y-1/2 rounded-full blur-[80px] sm:h-72 sm:w-72 sm:blur-[100px]"
-        style={{
-          background: "var(--glow)",
-          opacity: 0.35,
-        }}
+        className="pointer-events-none absolute left-1/2 top-1/2 h-[66%] w-[66%] -translate-x-1/2 -translate-y-1/2 rounded-full border border-dashed border-white/[0.08]"
+      />
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute left-1/2 top-1/2 h-[38%] w-[38%] -translate-x-1/2 -translate-y-1/2 rounded-full border border-white/[0.06]"
       />
 
+      {/* Soft Center Spotlight */}
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute left-1/2 top-1/2 h-52 w-52 -translate-x-1/2 -translate-y-1/2 rounded-full bg-white/[0.04] blur-3xl"
+      />
+
+      {/* Connection Lines */}
       <svg
         aria-hidden="true"
         className="pointer-events-none absolute inset-0 h-full w-full"
@@ -63,25 +57,10 @@ export function SkillConstellation({
       >
         {skills.map((skill, index) => {
           const angle =
-            (index / Math.max(skills.length, 1)) *
-              Math.PI *
-              2 -
-            Math.PI / 2;
-
-          const radius =
-            typeof window !== "undefined" &&
-            window.innerWidth < 640
-              ? 29
-              : 32;
-
-          const x =
-            50 + Math.cos(angle) * radius;
-
-          const y =
-            50 + Math.sin(angle) * radius;
-
-          const isActive =
-            activeSkill === skill;
+            (index / Math.max(skills.length, 1)) * Math.PI * 2 - Math.PI / 2;
+          const x = 50 + Math.cos(angle) * radius;
+          const y = 50 + Math.sin(angle) * radius;
+          const isActive = activeSkill === skill;
 
           return (
             <motion.line
@@ -90,145 +69,78 @@ export function SkillConstellation({
               y1="50"
               x2={x}
               y2={y}
-              stroke="var(--accent)"
-              strokeWidth={isActive ? 0.32 : 0.16}
+              stroke="#ffffff"
+              strokeWidth={isActive ? 1.5 : 0.75}
               vectorEffect="non-scaling-stroke"
               animate={{
-                opacity: isActive ? 0.85 : 0.35,
+                opacity: isActive ? 0.8 : activeSkill ? 0.1 : 0.22,
               }}
-              transition={{
-                duration: 0.25,
-              }}
+              transition={{ duration: 0.2 }}
             />
           );
         })}
       </svg>
 
+      {/* Center Core Hub */}
       <motion.div
-        className="absolute left-1/2 top-1/2 z-10 flex h-24 w-24 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full border sm:h-28 sm:w-28 lg:h-32 lg:w-32"
-        style={{
-          borderColor: "var(--accent)",
-          background: "var(--background)",
-          color: "var(--foreground)",
-          boxShadow:
-            "0 0 30px var(--glow), inset 0 0 25px var(--glow)",
-        }}
-        animate={{
-          scale: [1, 1.04, 1],
-        }}
-        transition={{
-          duration: 4,
-          repeat: Infinity,
-          ease: "easeInOut",
-        }}
+        className="absolute left-1/2 top-1/2 z-10 flex h-24 w-24 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full border border-white/25 bg-[#050505] px-3 text-center shadow-[0_0_40px_rgba(255,255,255,0.06)] sm:h-28 sm:w-28"
+        animate={{ scale: [1, 1.03, 1] }}
+        transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
       >
-        <div className="text-center">
-          <div
-            className="text-[9px] uppercase tracking-[0.25em] sm:text-[11px] sm:tracking-[0.3em]"
-            style={{
-              color: "var(--muted)",
-            }}
-          >
-            Skill
+        <div>
+          <div className="text-[9px] font-medium uppercase tracking-[0.22em] text-[#8a8a8e]">
+            {activeSkill ? "Selected" : "Stack"}
           </div>
-
-          <div
-            className="mt-1 text-[10px] uppercase tracking-[0.18em] sm:mt-2 sm:text-sm sm:tracking-[0.22em]"
-            style={{
-              color: "var(--accent)",
-            }}
-          >
-            System
+          <div className="mt-1 line-clamp-2 font-display text-[11px] font-bold uppercase tracking-[0.12em] text-white sm:text-xs">
+            {activeSkill ?? label}
           </div>
         </div>
       </motion.div>
 
+      {/* Skill Nodes */}
       {skills.map((skill, index) => {
         const angle =
-          (index / Math.max(skills.length, 1)) *
-            Math.PI *
-            2 -
-          Math.PI / 2;
+          (index / Math.max(skills.length, 1)) * Math.PI * 2 - Math.PI / 2;
+        const x = 50 + Math.cos(angle) * radius;
+        const y = 50 + Math.sin(angle) * radius;
 
-        const radius =
-          typeof window !== "undefined" &&
-          window.innerWidth < 640
-            ? 29
-            : 32;
-
-        const x =
-          50 + Math.cos(angle) * radius;
-
-        const y =
-          50 + Math.sin(angle) * radius;
-
-        const isActive =
-          activeSkill === skill;
-
-        const isDimmed =
-          activeSkill !== null && !isActive;
+        const isActive = activeSkill === skill;
+        const isDimmed = activeSkill !== null && !isActive;
 
         return (
           <motion.button
             key={skill}
             type="button"
-            onMouseEnter={() =>
-              setActiveSkill(skill)
-            }
-            onMouseLeave={() =>
-              setActiveSkill(null)
-            }
-            onFocus={() =>
-              setActiveSkill(skill)
-            }
-            onBlur={() =>
-              setActiveSkill(null)
-            }
-            className="absolute z-20 max-w-[42%] -translate-x-1/2 -translate-y-1/2 border px-2.5 py-2 text-[8px] uppercase tracking-[0.1em] transition-colors duration-200 sm:max-w-none sm:px-4 sm:py-3 sm:text-[11px] sm:tracking-[0.16em] lg:px-5 lg:py-3.5 lg:text-xs"
+            onMouseEnter={() => setActiveSkill(skill)}
+            onMouseLeave={() => setActiveSkill(null)}
+            onFocus={() => setActiveSkill(skill)}
+            onBlur={() => setActiveSkill(null)}
+            className={`absolute z-20 max-w-[40%] -translate-x-1/2 -translate-y-1/2 rounded-full border px-3 py-1.5 text-[10px] font-semibold uppercase tracking-[0.14em] transition-colors duration-200 sm:max-w-none sm:px-4 sm:py-2 sm:text-[11px] ${
+              isActive
+                ? "border-white bg-white text-[#050505] shadow-[0_0_24px_rgba(255,255,255,0.22)]"
+                : "border-white/15 bg-[#111113] text-[#d4d4d8] hover:border-white/40 hover:text-white"
+            }`}
             style={{
               left: `${x}%`,
               top: `${y}%`,
-              borderColor: isActive
-                ? "var(--accent)"
-                : "var(--border)",
-              background: isActive
-                ? "var(--surface-hover)"
-                : "var(--background)",
-              color: isActive
-                ? "var(--foreground)"
-                : "var(--muted)",
-              boxShadow: isActive
-                ? "0 0 30px var(--glow)"
-                : "0 0 0 transparent",
             }}
             animate={{
               opacity: isDimmed ? 0.3 : 1,
               scale: isActive ? 1.08 : 1,
             }}
-            transition={{
-              duration: 0.2,
-            }}
+            transition={{ duration: 0.2 }}
           >
             {skill}
           </motion.button>
         );
       })}
 
-      <div
-        className="absolute bottom-4 left-4 text-[8px] uppercase tracking-[0.2em] sm:bottom-5 sm:left-6 sm:text-[9px] sm:tracking-[0.25em]"
-        style={{
-          color: "var(--muted)",
-        }}
-      >
-        Interactive skill map
+      {/* Bottom Corner Metadata */}
+      <div className="pointer-events-none absolute bottom-4 left-5 text-[10px] uppercase tracking-[0.22em] text-[#8a8a8e]">
+        Hover a node
       </div>
 
-      <div
-        className="absolute bottom-4 right-4 text-[8px] uppercase tracking-[0.2em] sm:bottom-5 sm:right-6 sm:text-[9px] sm:tracking-[0.25em]"
-        style={{
-          color: "var(--accent)",
-        }}
-      >
+      <div className="pointer-events-none absolute bottom-4 right-5 font-mono text-[10px] uppercase tracking-[0.22em] text-white/60">
         {skills.length} nodes
       </div>
     </div>

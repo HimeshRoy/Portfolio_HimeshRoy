@@ -1,305 +1,184 @@
 "use client";
 
-import { motion, useMotionValue, useSpring } from "framer-motion";
+import { motion } from "framer-motion";
 import Link from "next/link";
-import type { MouseEvent } from "react";
-import { useState } from "react";
 import { projects } from "@/data/projects";
 
+const bentoSpans = [
+  "md:col-span-6 lg:col-span-6 lg:row-span-2", // 0: Flagship tile
+  "md:col-span-3 lg:col-span-6", // 1: Top-right
+  "md:col-span-3 lg:col-span-6", // 2: Mid-right
+  "md:col-span-3 lg:col-span-4", // 3: Bottom-left
+  "md:col-span-3 lg:col-span-4", // 4: Bottom-mid
+];
+
 export function Projects() {
-  const [activeProject, setActiveProject] = useState<string | null>(null);
-
-  const cursorX = useMotionValue(0);
-  const cursorY = useMotionValue(0);
-
-  const smoothX = useSpring(cursorX, {
-    stiffness: 180,
-    damping: 24,
-    mass: 0.35,
-  });
-
-  const smoothY = useSpring(cursorY, {
-    stiffness: 180,
-    damping: 24,
-    mass: 0.35,
-  });
-
-  const handleMouseMove = (event: MouseEvent<HTMLElement>) => {
-    cursorX.set(event.clientX + 24);
-    cursorY.set(event.clientY + 24);
-  };
-
-  const active = projects.find(
-    (project) => project.number === activeProject,
-  );
+  const featured = projects.slice(0, 5);
 
   return (
     <section
       id="projects-preview"
-      className="relative px-6 py-24 sm:px-10 sm:py-32 lg:px-16"
+      className="relative border-t border-white/10 bg-[#050505] px-6 py-20 sm:px-10 sm:py-24 lg:px-16"
     >
       <div className="mx-auto w-full max-w-7xl">
+        {/* Section Header */}
         <motion.div
-          initial={{
-            opacity: 0,
-            y: 40,
-          }}
-          whileInView={{
-            opacity: 1,
-            y: 0,
-          }}
-          viewport={{
-            once: true,
-            amount: 0.15,
-          }}
-          transition={{
-            duration: 0.9,
-          }}
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, amount: 0.2 }}
+          transition={{ duration: 0.65, ease: [0.16, 1, 0.3, 1] }}
+          className="flex flex-col justify-between gap-4 sm:flex-row sm:items-end"
         >
-          <div className="flex items-center justify-between gap-6">
-            <div className="flex items-center gap-3 sm:gap-4">
-              <span
-                className="h-px w-8 sm:w-12"
-                style={{
-                  backgroundColor: "var(--accent)",
-                }}
-              />
-
-              <span
-                className="text-[10px] uppercase tracking-[0.28em] sm:text-xs sm:tracking-[0.35em]"
-                style={{
-                  color: "var(--accent)",
-                }}
-              >
-                Selected work
-              </span>
-            </div>
-
-            <span
-              className="hidden text-[10px] uppercase tracking-[0.25em] sm:block"
-              style={{
-                color: "var(--muted)",
-              }}
-            >
-              {projects.length} projects
-            </span>
+          <div>
+            <p className="text-xs font-medium uppercase tracking-[0.25em] text-[#8a8a8e]">
+              Selected Work · {projects.length} Projects
+            </p>
+            <h2 className="mt-2 font-display text-3xl font-extrabold uppercase leading-[1.03] tracking-[-0.03em] text-white sm:text-4xl lg:text-5xl">
+              FEATURED PROJECTS
+            </h2>
           </div>
 
-          <div className="mt-10 sm:mt-14">
-            {projects.slice(0, 3).map((project, index) => (
-              <motion.div
+          <Link
+            href="/projects"
+            className="group relative inline-block w-fit pb-1.5 text-sm font-bold tracking-wide text-white"
+          >
+            <span>View All Projects</span>
+            <span className="absolute inset-x-0 bottom-0 h-[2px] origin-left bg-white transition-transform duration-300 group-hover:scale-x-110" />
+          </Link>
+        </motion.div>
+
+        {/* Compact Bento Grid */}
+        <div className="mt-10 grid grid-cols-1 gap-4 md:grid-cols-6 lg:grid-cols-12">
+          {featured.map((project, index) => {
+            const isHero = index === 0;
+            const spanClass = bentoSpans[index] ?? "md:col-span-3 lg:col-span-4";
+
+            return (
+              <motion.article
                 key={project.slug}
-                initial={{
-                  opacity: 0,
-                  y: 30,
-                }}
-                whileInView={{
-                  opacity: 1,
-                  y: 0,
-                }}
-                viewport={{
-                  once: true,
-                  amount: 0.2,
-                }}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, amount: 0.15 }}
                 transition={{
-                  duration: 0.8,
-                  delay: index * 0.1,
+                  duration: 0.6,
+                  delay: index * 0.05,
+                  ease: [0.16, 1, 0.3, 1],
                 }}
-                onMouseEnter={() =>
-                  setActiveProject(project.number)
-                }
-                onMouseMove={handleMouseMove}
-                onMouseLeave={() => setActiveProject(null)}
-                className="group border-t py-8 sm:py-10"
-                style={{
-                  borderColor: "var(--border)",
-                }}
+                className={`group relative flex flex-col justify-between overflow-hidden rounded-2xl border border-white/10 bg-[#111113] transition-all duration-300 hover:border-white/25 hover:bg-[#151518] ${
+                  isHero ? "p-6 sm:p-7" : "p-5"
+                } ${spanClass}`}
               >
-                <div className="grid gap-6 sm:gap-8 lg:grid-cols-[80px_0.8fr_1.2fr_auto] lg:items-center lg:gap-10">
-                  <span
-                    className="text-xs sm:text-sm"
-                    style={{
-                      color: "var(--accent)",
-                    }}
+                {isHero && (
+                  <div
+                    aria-hidden="true"
+                    className="pointer-events-none absolute -right-20 -top-20 h-56 w-56 rounded-full bg-white/[0.04] blur-3xl"
+                  />
+                )}
+
+                <div className="relative z-10">
+                  <div className="flex items-center justify-between gap-3">
+                    <span className="rounded-full border border-white/10 bg-[#050505] px-2.5 py-0.5 text-[10px] font-medium uppercase tracking-[0.18em] text-[#a1a1aa]">
+                      {project.category}
+                    </span>
+                    <span className="font-mono text-[11px] text-white/40">
+                      {project.number}
+                    </span>
+                  </div>
+
+                  <h3
+                    className={`mt-4 font-display font-bold tracking-tight text-white ${
+                      isHero ? "text-2xl sm:text-3xl" : "text-lg sm:text-xl"
+                    }`}
                   >
-                    {project.number}
-                  </span>
+                    {project.title}
+                  </h3>
 
-                  <span
-                    className="text-[10px] uppercase tracking-[0.22em] sm:text-xs sm:tracking-[0.25em]"
-                    style={{
-                      color: "var(--muted)",
-                    }}
+                  <p
+                    className={`mt-2 leading-6 text-[#8a8a8e] ${
+                      isHero
+                        ? "line-clamp-4 max-w-lg text-sm"
+                        : "line-clamp-2 text-xs sm:text-sm"
+                    }`}
                   >
-                    {project.category}
-                  </span>
+                    {project.description}
+                  </p>
+                </div>
 
-                  <div>
-                    <h3
-                      className="text-2xl font-medium tracking-tight transition-transform duration-500 group-hover:translate-x-2 sm:text-3xl lg:text-4xl"
-                      style={{
-                        color: "var(--foreground)",
-                      }}
-                    >
-                      {project.title}
-                    </h3>
-
-                    <p
-                      className="mt-3 max-w-xl text-sm leading-7"
-                      style={{
-                        color: "var(--muted)",
-                      }}
-                    >
-                      {project.description}
-                    </p>
-
-                    <div className="mt-4 flex flex-wrap gap-2">
-                      {project.technologies.map((technology) => (
+                <div className="relative z-10 mt-5">
+                  <div className="flex flex-wrap gap-1.5">
+                    {project.technologies
+                      .slice(0, isHero ? 5 : 3)
+                      .map((technology) => (
                         <span
                           key={technology}
-                          className="rounded-full border px-3 py-1 text-[9px] uppercase tracking-[0.15em]"
-                          style={{
-                            borderColor: "var(--border)",
-                            color: "var(--muted)",
-                          }}
+                          className="rounded-full border border-white/10 bg-[#050505]/80 px-2.5 py-0.5 text-[10px] text-[#a1a1aa]"
                         >
                           {technology}
                         </span>
                       ))}
-                    </div>
                   </div>
 
-                  <Link
-                    href={`/projects/${project.slug}`}
-                    className="inline-flex w-fit items-center gap-3 text-xs uppercase tracking-[0.18em] transition-transform duration-300 hover:translate-x-2 lg:justify-self-end"
-                    style={{
-                      color: "var(--foreground)",
-                    }}
-                  >
-                    <span>View project</span>
-
-                    <span
-                      style={{
-                        color: "var(--accent)",
-                      }}
+                  <div className="mt-4 flex items-center justify-between border-t border-white/10 pt-3.5">
+                    <Link
+                      href={`/projects/${project.slug}`}
+                      className="inline-flex items-center gap-1.5 text-xs font-bold text-white transition-opacity hover:opacity-75 sm:text-sm"
                     >
-                      →
-                    </span>
-                  </Link>
-                </div>
-              </motion.div>
-            ))}
-          </div>
+                      <span>View Project</span>
+                      <span className="transition-transform duration-200 group-hover:translate-x-1">
+                        →
+                      </span>
+                    </Link>
 
-          <div
-            className="border-t pt-7 sm:pt-8"
-            style={{
-              borderColor: "var(--border)",
+                    {isHero && (
+                      <span className="text-[10px] uppercase tracking-[0.2em] text-[#52525b]">
+                        Featured
+                      </span>
+                    )}
+                  </div>
+                </div>
+              </motion.article>
+            );
+          })}
+
+          {/* 6th Bento Tile: Archive CTA */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, amount: 0.15 }}
+            transition={{
+              duration: 0.6,
+              delay: 0.25,
+              ease: [0.16, 1, 0.3, 1],
             }}
+            className="md:col-span-6 lg:col-span-4"
           >
             <Link
               href="/projects"
-              className="inline-flex items-center gap-4 text-xs uppercase tracking-[0.18em] transition-transform duration-300 hover:translate-x-2 sm:text-sm sm:tracking-[0.2em]"
-              style={{
-                color: "var(--foreground)",
-              }}
+              className="group flex h-full min-h-[180px] flex-col justify-between rounded-2xl border border-dashed border-white/15 bg-[#0b0b0d] p-5 transition-all duration-300 hover:border-white/35 hover:bg-[#111113]"
             >
-              <span>View all projects</span>
+              <span className="text-[10px] font-medium uppercase tracking-[0.22em] text-[#8a8a8e]">
+                Full Archive
+              </span>
 
-              <span
-                style={{
-                  color: "var(--accent)",
-                }}
-              >
-                →
+              <div className="my-3">
+                <div className="font-display text-3xl font-extrabold tracking-tight text-white sm:text-4xl">
+                  {projects.length}+
+                </div>
+                <p className="mt-1.5 text-xs leading-5 text-[#8a8a8e] sm:text-sm">
+                  All full-stack apps, AI/ML builds, and tools.
+                </p>
+              </div>
+
+              <span className="inline-flex items-center gap-1.5 text-xs font-bold text-white sm:text-sm">
+                <span>Browse All</span>
+                <span className="transition-transform duration-200 group-hover:translate-x-1">
+                  →
+                </span>
               </span>
             </Link>
-          </div>
-        </motion.div>
+          </motion.div>
+        </div>
       </div>
-
-      {active && (
-        <motion.div
-          initial={{
-            opacity: 0,
-            scale: 0.85,
-          }}
-          animate={{
-            opacity: 1,
-            scale: 1,
-          }}
-          exit={{
-            opacity: 0,
-            scale: 0.85,
-          }}
-          style={{
-            x: smoothX,
-            y: smoothY,
-            borderColor: "var(--border)",
-            background:
-              "linear-gradient(135deg, var(--surface), var(--background))",
-            boxShadow: "0 20px 80px var(--glow)",
-          }}
-          className="pointer-events-none fixed left-0 top-0 z-50 hidden h-56 w-80 overflow-hidden rounded-2xl border p-5 shadow-2xl lg:block"
-        >
-          <div className="flex h-full flex-col justify-between">
-            <div className="flex items-center justify-between">
-              <span
-                className="text-[10px] uppercase tracking-[0.3em]"
-                style={{
-                  color: "var(--muted)",
-                }}
-              >
-                Preview
-              </span>
-
-              <span
-                className="text-xs"
-                style={{
-                  color: "var(--accent)",
-                }}
-              >
-                {active.number}
-              </span>
-            </div>
-
-            <div>
-              <div
-                className="text-6xl font-semibold tracking-[-0.08em]"
-                style={{
-                  color: "var(--primary)",
-                }}
-              >
-                {active.number}
-              </div>
-
-              <div
-                className="mt-3 text-xs uppercase tracking-[0.25em]"
-                style={{
-                  color: "var(--muted)",
-                }}
-              >
-                {active.category}
-              </div>
-
-              <div className="mt-4 flex flex-wrap gap-2">
-                {active.technologies.slice(0, 3).map((technology) => (
-                  <span
-                    key={technology}
-                    className="rounded-full border px-2 py-1 text-[9px] uppercase tracking-[0.15em]"
-                    style={{
-                      borderColor: "var(--border)",
-                      color: "var(--muted)",
-                    }}
-                  >
-                    {technology}
-                  </span>
-                ))}
-              </div>
-            </div>
-          </div>
-        </motion.div>
-      )}
     </section>
   );
 }

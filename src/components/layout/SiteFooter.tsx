@@ -1,126 +1,62 @@
 "use client";
 
-import { useTheme } from "@/themes/ThemeProvider";
 import { motion } from "framer-motion";
 import Link from "next/link";
 
 const navigation = [
-  {
-    label: "About",
-    href: "/about",
-  },
-  {
-    label: "Projects",
-    href: "/projects",
-  },
-  {
-    label: "Education",
-    href: "/education",
-  },
-  {
-    label: "Experience",
-    href: "/experience",
-  },
-  {
-    label: "Skills",
-    href: "/skills",
-  },
-  {
-    label: "CV",
-    href: "/cv",
-  },
-  {
-    label: "Contact",
-    href: "/contact",
-  },
+  { label: "About", href: "/about" },
+  { label: "Projects", href: "/projects" },
+  { label: "Skills", href: "/skills" },
+  { label: "Experience", href: "/experience" },
+  { label: "Education", href: "/education" },
+  { label: "CV", href: "/cv" },
+  { label: "Contact", href: "/contact" },
 ];
 
 export function SiteFooter() {
-  const { theme } = useTheme();
   const scrollToTop = () => {
-    window.scrollTo({
-      top: 0,
-      behavior: "smooth",
-    });
+    window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
   return (
-    <footer
-      className="relative border-t px-6 pb-8 pt-16 sm:px-10 lg:px-16"
-      style={{
-        borderColor: "var(--border)",
-      }}
-    >
+    <footer className="relative border-t border-white/10 bg-[#050505] px-6 pb-8 pt-16 sm:px-10 lg:px-16">
       <div className="mx-auto max-w-7xl">
         <div className="grid gap-12 lg:grid-cols-[1.3fr_1fr_0.7fr]">
+          {/* Brand */}
           <div>
             <Link
               href="/"
-              className="text-4xl font-semibold tracking-[-0.05em]"
-              style={{
-                color: "var(--foreground)",
-              }}
+              className="font-display text-3xl tracking-tight"
             >
-              Himesh
-              <span
-                style={{
-                  color: "var(--primary)",
-                }}
-              >
-                Roy
-              </span>
+              <span className="font-bold text-white">Himesh</span>
+              <span className="font-light text-[#8a8a8e]">Roy</span>
             </Link>
 
-            <p
-              className="mt-5 max-w-sm text-sm leading-7"
-              style={{
-                color: "var(--muted)",
-              }}
-            >
-              Developer, AI/ML enthusiast, and creator
-              building thoughtful digital experiences.
+            <p className="mt-4 max-w-sm text-sm leading-7 text-[#8a8a8e]">
+              Full-Stack Developer &amp; B.Tech CSE (AI &amp; ML) student
+              building modern web applications and intelligent systems.
             </p>
 
-            <div className="mt-8 flex items-center gap-3">
-              <span
-                className="h-2 w-2 rounded-full"
-                style={{
-                  backgroundColor: "var(--accent)",
-                  boxShadow:
-                    "0 0 16px var(--glow)",
-                }}
-              />
-
-              <span
-                className="text-[10px] uppercase tracking-[0.3em]"
-                style={{
-                  color: "var(--muted)",
-                }}
-              >
-                {getThemeLabel(theme)} · Active
+            <div className="mt-6 flex items-center gap-2.5">
+              <span className="h-2 w-2 rounded-full bg-white" />
+              <span className="text-[11px] uppercase tracking-[0.22em] text-[#8a8a8e]">
+                Open to internships &amp; collaborations
               </span>
             </div>
           </div>
 
+          {/* Navigation */}
           <div>
-            <span
-              className="text-[10px] uppercase tracking-[0.3em]"
-              style={{
-                color: "var(--accent)",
-              }}
-            >
+            <span className="text-[11px] font-semibold uppercase tracking-[0.25em] text-white">
               Navigation
             </span>
 
-            <nav className="mt-5 grid grid-cols-2 gap-x-8 gap-y-4">
+            <nav className="mt-5 grid grid-cols-2 gap-x-8 gap-y-3.5">
               {navigation.map((item) => (
                 <Link
                   key={item.href}
                   href={item.href}
-                  className="text-sm transition-transform duration-300 hover:translate-x-1"
-                  style={{
-                    color: "var(--muted)",
-                  }}
+                  className="text-sm text-[#8a8a8e] transition-colors duration-200 hover:text-white"
                 >
                   {item.label}
                 </Link>
@@ -128,53 +64,38 @@ export function SiteFooter() {
             </nav>
           </div>
 
+          {/* Connect */}
           <div>
-            <span
-              className="text-[10px] uppercase tracking-[0.3em]"
-              style={{
-                color: "var(--accent)",
-              }}
-            >
+            <span className="text-[11px] font-semibold uppercase tracking-[0.25em] text-white">
               Connect
             </span>
 
-            <div className="mt-5 flex flex-col gap-4">
+            <div className="mt-5 flex flex-col gap-3.5">
               <a
                 href="mailto:himeshroy.cse@gmail.com"
-                className="text-sm transition-opacity duration-300 hover:opacity-70"
-                style={{
-                  color: "var(--foreground)",
-                }}
+                className="text-sm text-[#8a8a8e] transition-colors hover:text-white"
               >
                 Email
               </a>
-
               <a
                 href="https://github.com/HimeshRoy"
-                className="text-sm transition-opacity duration-300 hover:opacity-70"
-                style={{
-                  color: "var(--foreground)",
-                }}
+                target="_blank"
+                rel="noreferrer"
+                className="text-sm text-[#8a8a8e] transition-colors hover:text-white"
               >
                 GitHub
               </a>
-
               <a
                 href="https://www.linkedin.com/in/himeshroy/"
-                className="text-sm transition-opacity duration-300 hover:opacity-70"
-                style={{
-                  color: "var(--foreground)",
-                }}
+                target="_blank"
+                rel="noreferrer"
+                className="text-sm text-[#8a8a8e] transition-colors hover:text-white"
               >
                 LinkedIn
               </a>
-
               <Link
                 href="/cv"
-                className="text-sm transition-opacity duration-300 hover:opacity-70"
-                style={{
-                  color: "var(--foreground)",
-                }}
+                className="text-sm text-[#8a8a8e] transition-colors hover:text-white"
               >
                 View CV
               </Link>
@@ -182,73 +103,24 @@ export function SiteFooter() {
           </div>
         </div>
 
-        <div
-          className="mt-16 flex flex-col gap-6 border-t pt-6 sm:flex-row sm:items-center sm:justify-between"
-          style={{
-            borderColor: "var(--border)",
-          }}
-        >
-          <div
-            className="flex flex-col gap-2 text-[10px] uppercase tracking-[0.2em] sm:flex-row sm:gap-6"
-            style={{
-              color: "var(--muted)",
-            }}
-          >
-            <span>
-              © {new Date().getFullYear()} Himesh Roy
-            </span>
-
-            <span>
-              Built with Next.js · TypeScript · Three.js
-            </span>
+        {/* Bottom bar */}
+        <div className="mt-16 flex flex-col gap-6 border-t border-white/10 pt-6 sm:flex-row sm:items-center sm:justify-between">
+          <div className="flex flex-col gap-2 text-[11px] uppercase tracking-[0.18em] text-[#8a8a8e] sm:flex-row sm:gap-6">
+            <span>© {new Date().getFullYear()} Himesh Roy</span>
+            <span>Built with Next.js · TypeScript · PostgreSQL</span>
           </div>
 
           <motion.button
             type="button"
             onClick={scrollToTop}
-            whileHover={{
-              y: -3,
-            }}
-            whileTap={{
-              scale: 0.95,
-            }}
-            className="inline-flex w-fit items-center gap-3 text-[10px] uppercase tracking-[0.25em]"
-            style={{
-              color: "var(--foreground)",
-            }}
+            whileHover={{ y: -2 }}
+            whileTap={{ scale: 0.96 }}
+            className="inline-flex w-fit items-center gap-2.5 text-[11px] font-medium uppercase tracking-[0.22em] text-white transition-opacity hover:opacity-75"
           >
-            Back to top
-            <span
-              style={{
-                color: "var(--accent)",
-              }}
-            >
-              ↑
-            </span>
+            Back to top <span>↑</span>
           </motion.button>
         </div>
       </div>
     </footer>
   );
-}
-
-function getThemeLabel(theme: string) {
-  switch (theme) {
-    case "monsoon":
-      return "Monsoon";
-    case "cherry-blossom":
-      return "Cherry Blossom";
-    case "summer":
-      return "Summer";
-    case "winter":
-      return "Winter";
-    case "ai":
-      return "AI / ML";
-    case "tech":
-      return "Tech";
-    case "nature":
-      return "Nature";
-    default:
-      return "Monsoon";
-  }
 }

@@ -14,233 +14,164 @@ export function generateStaticParams() {
   }));
 }
 
-export default async function ProjectPage({
-  params,
-}: ProjectPageProps) {
+export default async function ProjectPage({ params }: ProjectPageProps) {
   const { slug } = await params;
 
-  const project = projects.find(
-    (item) => item.slug === slug,
-  );
+  const currentIndex = projects.findIndex((item) => item.slug === slug);
+  const project = projects[currentIndex];
 
   if (!project) {
     notFound();
   }
 
+  const nextProject = projects[(currentIndex + 1) % projects.length];
+
   return (
-    <main
-      className="min-h-screen px-6 pb-32 pt-32 sm:px-10 lg:px-16"
-      style={{
-        color: "var(--foreground)",
-      }}
-    >
+    <section className="min-h-screen bg-[#050505] px-6 pb-24 pt-28 text-white sm:px-10 sm:pb-32 sm:pt-32 lg:px-16">
       <div className="mx-auto w-full max-w-7xl">
+        {/* Back link */}
         <Link
           href="/projects"
-          className="inline-flex items-center gap-3 text-xs uppercase tracking-[0.2em] transition-transform duration-300 hover:-translate-x-2 sm:text-sm"
-          style={{
-            color: "var(--muted)",
-          }}
+          className="group inline-flex items-center gap-2 text-xs font-medium uppercase tracking-[0.2em] text-[#8a8a8e] transition-colors hover:text-white"
         >
-          <span
-            style={{
-              color: "var(--accent)",
-            }}
-          >
+          <span className="transition-transform duration-200 group-hover:-translate-x-1">
             ←
           </span>
-
-          <span>Back to projects</span>
+          <span>Back to Projects</span>
         </Link>
 
-        <div className="mt-16 grid gap-14 lg:mt-20 lg:grid-cols-[0.9fr_1.1fr] lg:gap-24">
-          <div>
-            <div className="flex flex-wrap items-center gap-4">
-              <span
-                className="text-xs uppercase tracking-[0.3em]"
-                style={{
-                  color: "var(--accent)",
-                }}
-              >
-                {project.number}
-              </span>
-
-              <span
-                className="h-px w-8"
-                style={{
-                  backgroundColor: "var(--border)",
-                }}
-              />
-
-              <span
-                className="text-[10px] uppercase tracking-[0.25em]"
-                style={{
-                  color: "var(--muted)",
-                }}
-              >
+        {/* Main Split */}
+        <div className="mt-10 grid gap-10 lg:mt-12 lg:grid-cols-12 lg:items-start lg:gap-12">
+          {/* Left Content */}
+          <div className="lg:col-span-6">
+            <div className="flex flex-wrap items-center gap-3">
+              <span className="rounded-full border border-white/15 bg-[#111113] px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.2em] text-white">
                 {project.category}
+              </span>
+              <span className="font-mono text-xs text-[#8a8a8e]">
+                {project.number} · {project.year}
               </span>
             </div>
 
-            <h1
-              className="mt-7 text-[clamp(3.5rem,9vw,4rem)] font-semibold leading-[0.85] tracking-[-0.07em]"
-              style={{
-                color: "var(--foreground)",
-              }}
-            >
+            <h1 className="mt-5 font-display text-4xl font-extrabold uppercase leading-[1.03] tracking-[-0.03em] text-white sm:text-5xl">
               {project.title}
             </h1>
 
-            <p
-              className="mt-8 max-w-xl text-base leading-7 sm:text-lg sm:leading-8"
-              style={{
-                color: "var(--muted)",
-              }}
-            >
+            <p className="mt-6 max-w-xl text-sm leading-7 text-[#8a8a8e] sm:text-base">
               {project.description}
             </p>
 
-            <div className="mt-10 flex flex-wrap gap-2">
-              {project.technologies.map((technology) => (
-                <span
-                  key={technology}
-                  className="rounded-full border px-3 py-2 text-[9px] uppercase tracking-[0.15em] sm:px-4 sm:text-[10px] sm:tracking-[0.2em]"
-                  style={{
-                    borderColor: "var(--border)",
-                    color: "var(--muted)",
-                  }}
-                >
-                  {technology}
-                </span>
-              ))}
+            {/* Tech Stack */}
+            <div className="mt-8">
+              <p className="text-[11px] font-medium uppercase tracking-[0.22em] text-[#8a8a8e]">
+                Tech Stack
+              </p>
+              <div className="mt-3 flex flex-wrap gap-2">
+                {project.technologies.map((technology) => (
+                  <span
+                    key={technology}
+                    className="rounded-full border border-white/10 bg-[#111113] px-3 py-1 text-xs text-[#d4d4d8]"
+                  >
+                    {technology}
+                  </span>
+                ))}
+              </div>
             </div>
 
-            <div className="mt-12 flex flex-wrap gap-6">
-              {project.live && (
-                <a
-                  href={project.live}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center gap-3 border-b pb-3 text-xs uppercase tracking-[0.18em] transition-transform duration-300 hover:translate-x-2 sm:text-sm sm:tracking-[0.2em]"
-                  style={{
-                    borderColor: "var(--border)",
-                    color: "var(--foreground)",
-                  }}
-                >
-                  <span>Live project</span>
-
-                  <span
-                    style={{
-                      color: "var(--accent)",
-                    }}
+            {/* Action Buttons */}
+            {(project.live || project.github) && (
+              <div className="mt-9 flex flex-wrap items-center gap-4">
+                {project.live && (
+                  <a
+                    href={project.live}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-2 rounded-full bg-white px-5 py-2.5 text-xs font-bold uppercase tracking-[0.16em] text-[#050505] transition-opacity hover:opacity-85"
                   >
-                    ↗
-                  </span>
-                </a>
-              )}
+                    <span>Live Project</span>
+                    <span>↗</span>
+                  </a>
+                )}
 
-              {project.github && (
-                <a
-                  href={project.github}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center gap-3 border-b pb-3 text-xs uppercase tracking-[0.18em] transition-transform duration-300 hover:translate-x-2 sm:text-sm sm:tracking-[0.2em]"
-                  style={{
-                    borderColor: "var(--border)",
-                    color: "var(--muted)",
-                  }}
-                >
-                  <span>Source code</span>
-
-                  <span
-                    style={{
-                      color: "var(--accent)",
-                    }}
+                {project.github && (
+                  <a
+                    href={project.github}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-2 rounded-full border border-white/15 bg-[#111113] px-5 py-2.5 text-xs font-bold uppercase tracking-[0.16em] text-white transition-colors hover:border-white/35"
                   >
-                    ↗
-                  </span>
-                </a>
-              )}
-            </div>
-          </div>
-
-          <div
-            className="relative aspect-[4/3] overflow-hidden rounded-3xl border"
-            style={{
-              borderColor: "var(--border)",
-              background:
-                "linear-gradient(135deg, var(--surface), var(--background))",
-              boxShadow: "0 30px 100px var(--glow)",
-            }}
-          >
-            {project.image ? (
-              <img
-                src={project.image}
-                alt={project.title}
-                className="h-full w-full object-cover"
-              />
-            ) : (
-              <div className="flex h-full items-center justify-center">
-                <span
-                  className="text-[28vw] font-semibold leading-none tracking-[-0.08em] sm:text-[20vw] lg:text-[12vw]"
-                  style={{
-                    color: "var(--primary)",
-                  }}
-                >
-                  {project.number}
-                </span>
+                    <span>Source Code</span>
+                    <span>↗</span>
+                  </a>
+                )}
               </div>
             )}
           </div>
+
+          {/* Right Preview Frame */}
+          <div className="lg:col-span-6">
+            <div className="relative aspect-[4/3] overflow-hidden rounded-2xl border border-white/10 bg-[#0d0d0f]">
+              {project.image ? (
+                <img
+                  src={project.image}
+                  alt={project.title}
+                  className="h-full w-full object-cover"
+                />
+              ) : (
+                <div className="relative flex h-full w-full items-center justify-center overflow-hidden">
+                  <div
+                    aria-hidden="true"
+                    className="pointer-events-none absolute h-56 w-56 rounded-full bg-white/[0.05] blur-3xl"
+                  />
+                  <span className="select-none font-display text-[8rem] font-extrabold leading-none tracking-tighter text-white/[0.08] sm:text-[10rem]">
+                    {project.number}
+                  </span>
+                </div>
+              )}
+            </div>
+          </div>
         </div>
 
-        <div
-          className="mt-24 border-t pt-8 sm:mt-32"
-          style={{
-            borderColor: "var(--border)",
-          }}
-        >
-          <div className="flex flex-col gap-6 sm:flex-row sm:items-center sm:justify-between">
-            <div>
-              <span
-                className="text-[10px] uppercase tracking-[0.25em]"
-                style={{
-                  color: "var(--muted)",
-                }}
-              >
-                Project year
-              </span>
+        {/* Bottom Bento Metadata + Next Project */}
+        <div className="mt-14 grid grid-cols-1 gap-4 border-t border-white/10 pt-10 sm:grid-cols-2 lg:grid-cols-12">
+          <div className="rounded-2xl border border-white/10 bg-[#111113] p-5 lg:col-span-3">
+            <span className="text-[10px] font-medium uppercase tracking-[0.22em] text-[#8a8a8e]">
+              Year
+            </span>
+            <p className="mt-2 font-display text-xl font-bold text-white">
+              {project.year}
+            </p>
+          </div>
 
-              <p
-                className="mt-2 text-sm uppercase tracking-[0.18em]"
-                style={{
-                  color: "var(--foreground)",
-                }}
-              >
-                {project.year}
-              </p>
-            </div>
+          <div className="rounded-2xl border border-white/10 bg-[#111113] p-5 lg:col-span-3">
+            <span className="text-[10px] font-medium uppercase tracking-[0.22em] text-[#8a8a8e]">
+              Category
+            </span>
+            <p className="mt-2 font-display text-xl font-bold text-white">
+              {project.category}
+            </p>
+          </div>
 
+          {nextProject && nextProject.slug !== project.slug && (
             <Link
-              href="/projects"
-              className="inline-flex items-center gap-3 text-xs uppercase tracking-[0.2em] transition-transform duration-300 hover:translate-x-2 sm:text-sm"
-              style={{
-                color: "var(--foreground)",
-              }}
+              href={`/projects/${nextProject.slug}`}
+              className="group flex items-center justify-between gap-4 rounded-2xl border border-white/10 bg-[#111113] p-5 transition-colors hover:border-white/25 hover:bg-[#151518] sm:col-span-2 lg:col-span-6"
             >
-              <span>All projects</span>
-
-              <span
-                style={{
-                  color: "var(--accent)",
-                }}
-              >
+              <div>
+                <span className="text-[10px] font-medium uppercase tracking-[0.22em] text-[#8a8a8e]">
+                  Next Project · {nextProject.number}
+                </span>
+                <p className="mt-1.5 font-display text-xl font-bold text-white">
+                  {nextProject.title}
+                </p>
+              </div>
+              <span className="text-lg text-white transition-transform duration-200 group-hover:translate-x-1">
                 →
               </span>
             </Link>
-          </div>
+          )}
         </div>
       </div>
-    </main>
+    </section>
   );
 }

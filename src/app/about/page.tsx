@@ -8,463 +8,232 @@ const principles = [
     number: "01",
     title: "Curiosity",
     description:
-      "I enjoy understanding how things work, exploring unfamiliar technologies, and learning by building real projects.",
+      "I enjoy understanding how systems work under the hood, exploring unfamiliar technologies, and learning by building real projects.",
   },
   {
     number: "02",
     title: "Building",
     description:
-      "I learn best by turning ideas into working products, from full stack applications to experiments with AI and creative technology.",
+      "I learn best by turning ideas into working products—from full-stack web apps to AI/ML experiments and creative technology.",
   },
   {
     number: "03",
     title: "Problem Solving",
     description:
-      "I like breaking down problems, experimenting with different approaches, and creating solutions that are practical and useful.",
+      "I like breaking down complex problems, testing different architectures, and shipping practical, reliable solutions.",
+  },
+];
+
+const snapshot = [
+  {
+    label: "Education",
+    title: "B.Tech CSE · AI & ML",
+    subtitle: "Geeta University, Panipat",
+  },
+  {
+    label: "Experience",
+    title: "Full Stack Intern",
+    subtitle: "Worlds On Network",
+  },
+  {
+    label: "Focus",
+    title: "Full-Stack · AI/ML",
+    subtitle: "Web apps & intelligent systems",
   },
 ];
 
 export default function AboutPage() {
   return (
-    <main
-      className="relative min-h-screen overflow-hidden"
-      style={{
-        color: "var(--foreground)",
-      }}
-    >
-      <section className="px-6 pb-24 pt-32 sm:px-10 lg:px-16 lg:pb-32 lg:pt-40">
-        <div className="mx-auto w-full max-w-7xl">
-          <motion.div
-            initial={{
-              opacity: 0,
-              y: 40,
-            }}
-            animate={{
-              opacity: 1,
-              y: 0,
-            }}
-            transition={{
-              duration: 0.9,
-            }}
-          >
-            <div className="flex items-center gap-4">
-              <span
-                className="h-px w-12"
-                style={{
-                  backgroundColor: "var(--accent)",
-                }}
-              />
+    <section className="min-h-screen bg-[#050505] px-6 pb-24 pt-28 text-white sm:px-10 sm:pb-32 sm:pt-32 lg:px-16">
+      <div className="mx-auto w-full max-w-7xl">
+        {/* Hero Intro */}
+        <motion.header
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.65, ease: [0.16, 1, 0.3, 1] }}
+          className="grid gap-8 border-b border-white/10 pb-14 lg:grid-cols-12 lg:items-end lg:gap-12"
+        >
+          <div className="lg:col-span-5">
+            <p className="text-xs font-medium uppercase tracking-[0.25em] text-[#8a8a8e]">
+              About Me
+            </p>
+            <h1 className="mt-3 font-display text-5xl font-extrabold uppercase leading-[0.98] tracking-[-0.03em] text-white sm:text-6xl lg:text-7xl">
+              HIMESH
+              <br />
+              ROY
+            </h1>
+          </div>
 
-              <span
-                className="text-xs uppercase tracking-[0.35em]"
-                style={{
-                  color: "var(--accent)",
-                }}
-              >
-                About
-              </span>
-            </div>
+          <div className="lg:col-span-7">
+            <p className="text-xl font-medium leading-relaxed text-white sm:text-2xl">
+              I&apos;m a Full-Stack Developer and Computer Science student
+              specializing in Artificial Intelligence and Machine Learning.
+            </p>
+            <p className="mt-4 max-w-2xl text-sm leading-7 text-[#8a8a8e] sm:text-base">
+              I build responsive, scalable web applications while exploring
+              AI/ML, modern systems, and creative ways to turn ideas into useful
+              digital products.
+            </p>
+          </div>
+        </motion.header>
 
-            <div className="mt-16 grid gap-12 lg:grid-cols-[0.9fr_1.1fr] lg:gap-24">
-              <div>
-                <span
-                  className="text-sm uppercase tracking-[0.25em]"
-                  style={{
-                    color: "var(--muted)",
-                  }}
-                >
-                  A little about me
-                </span>
-
-                <h1
-                  className="mt-5 text-6xl font-semibold leading-[0.85] tracking-[-0.06em] sm:text-7xl lg:text-[8rem]"
-                  style={{
-                    color: "var(--foreground)",
-                  }}
-                >
-                  Himesh
-                  <br />
-                  <span
-                    style={{
-                      color: "var(--primary)",
-                    }}
-                  >
-                    Roy.
-                  </span>
-                </h1>
-              </div>
-
-              <div className="flex flex-col justify-end">
-                <p
-                  className="max-w-3xl text-2xl leading-[1.3] tracking-tight sm:text-3xl lg:text-4xl"
-                  style={{
-                    color: "var(--foreground)",
-                  }}
-                >
-                  I&apos;m a Full Stack Developer and
-                  Computer Science student specializing
-                  in Artificial Intelligence and Machine
-                  Learning.
-                </p>
-
-                <p
-                  className="mt-8 max-w-2xl text-base leading-8"
-                  style={{
-                    color: "var(--muted)",
-                  }}
-                >
-                  I enjoy building responsive and scalable
-                  web applications while exploring AI/ML,
-                  modern technologies, and creative ways to
-                  turn ideas into useful digital products.
-                </p>
-              </div>
-            </div>
-          </motion.div>
-        </div>
-      </section>
-
-      <div
-        className="mx-6 border-t sm:mx-10 lg:mx-16"
-        style={{
-          borderColor: "var(--border)",
-        }}
-      />
-
-      <section className="px-6 py-24 sm:px-10 lg:px-16 lg:py-32">
-        <div className="mx-auto grid w-full max-w-7xl gap-16 lg:grid-cols-[0.7fr_1.3fr] lg:gap-24">
-          <div>
-            <span
-              className="text-xs uppercase tracking-[0.3em]"
-              style={{
-                color: "var(--accent)",
+        {/* Snapshot Bento Strip */}
+        <div className="mt-10 grid grid-cols-1 gap-4 sm:grid-cols-3">
+          {snapshot.map((item, index) => (
+            <motion.div
+              key={item.label}
+              initial={{ opacity: 0, y: 16 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{
+                duration: 0.5,
+                delay: 0.08 + index * 0.06,
+                ease: [0.16, 1, 0.3, 1],
               }}
+              className="rounded-2xl border border-white/10 bg-[#111113] p-5 sm:p-6"
             >
+              <span className="text-[10px] font-medium uppercase tracking-[0.22em] text-[#8a8a8e]">
+                {item.label}
+              </span>
+              <p className="mt-2.5 font-display text-lg font-bold text-white sm:text-xl">
+                {item.title}
+              </p>
+              <p className="mt-1 text-xs text-[#8a8a8e] sm:text-sm">
+                {item.subtitle}
+              </p>
+            </motion.div>
+          ))}
+        </div>
+
+        {/* 01 / Story */}
+        <div className="mt-20 grid gap-10 border-t border-white/10 pt-16 lg:grid-cols-12 lg:gap-12">
+          <div className="lg:sticky lg:top-28 lg:col-span-5 lg:self-start">
+            <span className="font-mono text-xs uppercase tracking-[0.22em] text-[#8a8a8e]">
               01 / Story
             </span>
-
-            <h2
-              className="mt-5 text-4xl font-medium tracking-[-0.04em] sm:text-5xl"
-              style={{
-                color: "var(--foreground)",
-              }}
-            >
-              Learning,
+            <h2 className="mt-3 font-display text-3xl font-extrabold uppercase leading-[1.03] tracking-[-0.03em] text-white sm:text-4xl">
+              LEARNING,
               <br />
-              building,
+              BUILDING,
               <br />
-              growing.
+              GROWING.
             </h2>
           </div>
 
-          <div className="max-w-3xl space-y-7 text-base leading-8">
-            <p
-              style={{
-                color: "var(--foreground)",
-              }}
-            >
-              I&apos;m currently pursuing a B.Tech in
-              Computer Science and Engineering with a
-              specialization in Artificial Intelligence and
+          <div className="space-y-6 text-sm leading-7 text-[#8a8a8e] sm:text-base sm:leading-8 lg:col-span-7">
+            <p className="text-white">
+              I&apos;m currently pursuing a B.Tech in Computer Science and
+              Engineering with a specialization in Artificial Intelligence and
               Machine Learning at Geeta University, Panipat.
             </p>
 
-            <p
-              style={{
-                color: "var(--muted)",
-              }}
-            >
-              Alongside my academics, I focus on full stack
-              development and enjoy working with technologies
-              such as React, TypeScript, Node.js, Express.js,
-              Python, and modern frontend tools.
+            <p>
+              Alongside my academics, I focus on full-stack development and
+              enjoy working with technologies such as React, Next.js,
+              TypeScript, Node.js, Express.js, Python, and PostgreSQL.
             </p>
 
-            <p
-              style={{
-                color: "var(--muted)",
-              }}
-            >
-              My development journey has been driven by
-              practical projects, experimentation, and
-              continuous learning. I enjoy taking an idea,
-              understanding the problem behind it, and
-              turning it into something people can actually
-              use.
+            <p>
+              My development journey has been driven by practical projects,
+              experimentation, and continuous learning. I enjoy taking an idea,
+              understanding the problem behind it, and turning it into something
+              people can actually use.
             </p>
 
-            <p
-              style={{
-                color: "var(--muted)",
-              }}
-            >
-              I also enjoy participating in hackathons and
-              exploring AI/ML alongside software development,
-              giving me opportunities to learn beyond the
-              classroom and work on real-world problems.
+            <p>
+              I also participate in hackathons and explore AI/ML alongside
+              software engineering, giving me opportunities to learn beyond the
+              classroom and build for real-world problems.
             </p>
           </div>
         </div>
-      </section>
 
-      <section className="px-6 pb-24 sm:px-10 lg:px-16 lg:pb-32">
-        <div className="mx-auto w-full max-w-7xl">
-          <div className="mb-12">
-            <span
-              className="text-xs uppercase tracking-[0.3em]"
-              style={{
-                color: "var(--accent)",
-              }}
-            >
-              02 / Principles
-            </span>
+        {/* 02 / Principles */}
+        <div className="mt-20 border-t border-white/10 pt-16">
+          <span className="font-mono text-xs uppercase tracking-[0.22em] text-[#8a8a8e]">
+            02 / Principles
+          </span>
+          <h2 className="mt-3 font-display text-3xl font-extrabold uppercase leading-[1.03] tracking-[-0.03em] text-white sm:text-4xl">
+            HOW I WORK
+          </h2>
 
-            <h2
-              className="mt-4 text-4xl font-medium tracking-[-0.04em] sm:text-5xl"
-              style={{
-                color: "var(--foreground)",
-              }}
-            >
-              How I work.
-            </h2>
-          </div>
-
-          <div
-            className="border-t"
-            style={{
-              borderColor: "var(--border)",
-            }}
-          >
+          <div className="mt-10 grid grid-cols-1 gap-4 md:grid-cols-3">
             {principles.map((principle, index) => (
-              <motion.div
+              <motion.article
                 key={principle.number}
-                initial={{
-                  opacity: 0,
-                  y: 25,
-                }}
-                whileInView={{
-                  opacity: 1,
-                  y: 0,
-                }}
-                viewport={{
-                  once: true,
-                  amount: 0.2,
-                }}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, amount: 0.2 }}
                 transition={{
-                  duration: 0.7,
+                  duration: 0.55,
                   delay: index * 0.08,
+                  ease: [0.16, 1, 0.3, 1],
                 }}
-                className="grid gap-6 border-b py-10 sm:grid-cols-[80px_0.8fr_1.2fr] sm:items-center"
-                style={{
-                  borderColor: "var(--border)",
-                }}
+                className="relative overflow-hidden rounded-2xl border border-white/10 bg-[#111113] p-6 transition-colors duration-300 hover:border-white/25 hover:bg-[#151518]"
               >
-                <span
-                  className="text-xs tracking-[0.2em]"
-                  style={{
-                    color: "var(--accent)",
-                  }}
+                {/* <span
+                  aria-hidden="true"
+                  className="pointer-events-none absolute -bottom-5 right-3 select-none font-display text-7xl font-extrabold leading-none text-white/[0.04]"
                 >
+                  {principle.number}
+                </span> */}
+
+                <span className="font-mono text-xs text-white/40">
                   {principle.number}
                 </span>
 
-                <h3
-                  className="text-2xl font-medium"
-                  style={{
-                    color: "var(--foreground)",
-                  }}
-                >
+                <h3 className="mt-4 font-display text-xl font-bold text-white">
                   {principle.title}
                 </h3>
 
-                <p
-                  className="max-w-xl text-sm leading-7"
-                  style={{
-                    color: "var(--muted)",
-                  }}
-                >
+                <p className="relative z-10 mt-3 text-sm leading-6 text-[#8a8a8e]">
                   {principle.description}
                 </p>
-              </motion.div>
+              </motion.article>
             ))}
           </div>
         </div>
-      </section>
 
-      <section className="px-6 pb-24 sm:px-10 lg:px-16 lg:pb-32">
-        <div className="mx-auto w-full max-w-7xl">
+        {/* 03 / Currently Callout */}
+        <motion.div
+          initial={{ opacity: 0, y: 24 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, amount: 0.2 }}
+          transition={{ duration: 0.65, ease: [0.16, 1, 0.3, 1] }}
+          className="relative mt-20 overflow-hidden rounded-3xl border border-white/10 bg-[#0d0d0f] p-7 sm:p-10 lg:p-12"
+        >
           <div
-            className="border-y py-12"
-            style={{
-              borderColor: "var(--border)",
-            }}
-          >
-            <div className="grid gap-10 sm:grid-cols-3">
-              <div>
-                <span
-                  className="text-[10px] uppercase tracking-[0.25em]"
-                  style={{
-                    color: "var(--muted)",
-                  }}
-                >
-                  Education
-                </span>
+            aria-hidden="true"
+            className="pointer-events-none absolute -right-24 -top-24 h-64 w-64 rounded-full bg-white/[0.04] blur-3xl"
+          />
 
-                <p
-                  className="mt-3 text-lg"
-                  style={{
-                    color: "var(--foreground)",
-                  }}
-                >
-                  B.Tech CSE · AI & ML
-                </p>
-
-                <p
-                  className="mt-2 text-sm"
-                  style={{
-                    color: "var(--muted)",
-                  }}
-                >
-                  Geeta University, Panipat
-                </p>
-              </div>
-
-              <div>
-                <span
-                  className="text-[10px] uppercase tracking-[0.25em]"
-                  style={{
-                    color: "var(--muted)",
-                  }}
-                >
-                  Experience
-                </span>
-
-                <p
-                  className="mt-3 text-lg"
-                  style={{
-                    color: "var(--foreground)",
-                  }}
-                >
-                  Full Stack Intern
-                </p>
-
-                <p
-                  className="mt-2 text-sm"
-                  style={{
-                    color: "var(--muted)",
-                  }}
-                >
-                  World On Networks
-                </p>
-              </div>
-
-              <div>
-                <span
-                  className="text-[10px] uppercase tracking-[0.25em]"
-                  style={{
-                    color: "var(--muted)",
-                  }}
-                >
-                  Focus
-                </span>
-
-                <p
-                  className="mt-3 text-lg"
-                  style={{
-                    color: "var(--foreground)",
-                  }}
-                >
-                  Full Stack · AI/ML
-                </p>
-
-                <p
-                  className="mt-2 text-sm"
-                  style={{
-                    color: "var(--muted)",
-                  }}
-                >
-                  Software & intelligent systems
-                </p>
-              </div>
+          <div className="relative z-10 flex flex-col justify-between gap-8 lg:flex-row lg:items-end">
+            <div className="max-w-2xl">
+              <span className="font-mono text-xs uppercase tracking-[0.22em] text-[#8a8a8e]">
+                03 / Currently
+              </span>
+              <h2 className="mt-3 font-display text-3xl font-extrabold uppercase leading-[1.03] tracking-[-0.03em] text-white sm:text-4xl">
+                BUILDING, LEARNING &amp; EXPLORING
+              </h2>
+              <p className="mt-4 text-sm leading-7 text-[#8a8a8e] sm:text-base">
+                Currently focused on full-stack development, AI/ML engineering,
+                academic growth, and shipping projects that turn ideas into
+                meaningful digital experiences.
+              </p>
             </div>
+
+            <Link
+              href="/skills"
+              className="group relative inline-flex w-fit items-center gap-2 pb-1.5 text-sm font-bold tracking-wide text-white sm:text-base"
+            >
+              <span>Explore My Skills</span>
+              <span className="transition-transform duration-200 group-hover:translate-x-1">
+                →
+              </span>
+              <span className="absolute inset-x-0 bottom-0 h-[2px] origin-left bg-white transition-transform duration-300 group-hover:scale-x-110" />
+            </Link>
           </div>
-        </div>
-      </section>
-
-      <section className="px-6 pb-32 sm:px-10 lg:px-16">
-        <div className="mx-auto w-full max-w-7xl">
-          <div
-            className="relative overflow-hidden border p-8 sm:p-12 lg:p-16"
-            style={{
-              borderColor: "var(--border)",
-              backgroundColor: "var(--surface)",
-            }}
-          >
-            <div
-              className="pointer-events-none absolute -right-24 -top-24 h-72 w-72 rounded-full blur-[100px]"
-              style={{
-                backgroundColor: "var(--glow)",
-              }}
-            />
-
-            <div className="relative z-10 grid gap-10 lg:grid-cols-[1fr_auto] lg:items-end">
-              <div>
-                <span
-                  className="text-xs uppercase tracking-[0.3em]"
-                  style={{
-                    color: "var(--accent)",
-                  }}
-                >
-                  03 / Currently
-                </span>
-
-                <h2
-                  className="mt-5 max-w-3xl text-4xl font-medium leading-tight tracking-[-0.04em] sm:text-5xl"
-                  style={{
-                    color: "var(--foreground)",
-                  }}
-                >
-                  Building, learning,
-                  <br />
-                  and exploring.
-                </h2>
-
-                <p
-                  className="mt-6 max-w-2xl text-base leading-7"
-                  style={{
-                    color: "var(--muted)",
-                  }}
-                >
-                  Currently focused on full stack
-                  development, AI/ML, academic growth,
-                  personal projects, and exploring new
-                  technologies that can turn ideas into
-                  meaningful digital experiences.
-                </p>
-              </div>
-
-              <Link
-                href="/skills"
-                className="inline-flex w-fit items-center gap-4 border-b pb-3 text-sm uppercase tracking-[0.2em] transition-transform duration-300 hover:translate-x-2"
-                style={{
-                  borderColor: "var(--border)",
-                  color: "var(--foreground)",
-                }}
-              >
-                <span>Explore my skills</span>
-
-                <span
-                  style={{
-                    color: "var(--accent)",
-                  }}
-                >
-                  →
-                </span>
-              </Link>
-            </div>
-          </div>
-        </div>
-      </section>
-    </main>
+        </motion.div>
+      </div>
+    </section>
   );
 }

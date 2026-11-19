@@ -1,173 +1,133 @@
 "use client";
 
+import type { MouseEvent } from "react";
+import { useState } from "react";
 import { motion } from "framer-motion";
 import Link from "next/link";
 import { experience } from "@/data/experience";
 
 export function Experience() {
+  const [spot, setSpot] = useState({ x: 0, y: 0, active: false });
+
+  const handleMove = (e: MouseEvent<HTMLDivElement>) => {
+    const rect = e.currentTarget.getBoundingClientRect();
+    setSpot({
+      x: e.clientX - rect.left,
+      y: e.clientY - rect.top,
+      active: true,
+    });
+  };
+
   return (
     <section
       id="experience-preview"
-      className="relative px-6 py-24 sm:px-10 sm:py-32 lg:px-16"
+      className="relative border-t border-white/10 bg-[#050505] px-6 py-20 sm:px-10 sm:py-24 lg:px-16"
     >
-      <div className="mx-auto w-full max-w-7xl">
-        <motion.div
-          initial={{
-            opacity: 0,
-            y: 40,
-          }}
-          whileInView={{
-            opacity: 1,
-            y: 0,
-          }}
-          viewport={{
-            once: true,
-            amount: 0.15,
-          }}
-          transition={{
-            duration: 0.9,
-          }}
-        >
-          <div className="flex items-center justify-between gap-6">
-            <div className="flex items-center gap-3 sm:gap-4">
-              <span
-                className="h-px w-8 sm:w-12"
-                style={{
-                  backgroundColor: "var(--accent)",
-                }}
-              />
+      <div className="mx-auto grid w-full max-w-7xl gap-12 lg:grid-cols-12 lg:gap-12">
+        {/* Left Sticky Editorial Column */}
+        <div className="lg:sticky lg:top-28 lg:col-span-5 lg:self-start">
+          <p className="text-xs font-medium uppercase tracking-[0.25em] text-[#8a8a8e]">
+            Building &amp; Shipping
+          </p>
 
-              <span
-                className="text-[10px] uppercase tracking-[0.28em] sm:text-xs sm:tracking-[0.35em]"
-                style={{
-                  color: "var(--accent)",
-                }}
-              >
-                Experience
-              </span>
-            </div>
+          <h2 className="mt-2 font-display text-3xl font-extrabold uppercase leading-[1.03] tracking-[-0.03em] text-white sm:text-4xl lg:text-5xl">
+            EXPERIENCE
+          </h2>
 
-            <span
-              className="hidden text-[10px] uppercase tracking-[0.25em] sm:block"
-              style={{
-                color: "var(--muted)",
-              }}
+          <p className="mt-5 max-w-sm text-sm leading-7 text-[#8a8a8e]">
+            Hands-on engineering across full-stack web applications, APIs,
+            databases, and production deployments.
+          </p>
+
+          <div className="mt-7">
+            <Link
+              href="/experience"
+              className="group relative inline-block pb-1.5 text-sm font-bold tracking-wide text-white"
             >
-              Building & learning
-            </span>
+              <span>View Full Experience</span>
+              <span className="absolute inset-x-0 bottom-0 h-[2px] origin-left bg-white transition-transform duration-300 group-hover:scale-x-110" />
+            </Link>
           </div>
+        </div>
 
-          <div className="mt-10 sm:mt-16">
+        {/* Right Timeline Rail + Spotlight Cards */}
+        <div className="relative pl-6 sm:pl-8 lg:col-span-7">
+          {/* Vertical Timeline Line */}
+          <div
+            aria-hidden="true"
+            className="absolute bottom-2 left-[7px] top-2 w-px bg-gradient-to-b from-white/50 via-white/15 to-transparent"
+          />
+
+          <div className="flex flex-col gap-6">
             {experience.map((item, index) => (
-              <motion.div
+              <motion.article
                 key={item.number}
-                initial={{
-                  opacity: 0,
-                  x: -30,
-                }}
-                whileInView={{
-                  opacity: 1,
-                  x: 0,
-                }}
-                viewport={{
-                  once: true,
-                  amount: 0.2,
-                }}
+                initial={{ opacity: 0, y: 24 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, amount: 0.2 }}
                 transition={{
-                  duration: 0.8,
-                  delay: index * 0.12,
+                  duration: 0.65,
+                  delay: index * 0.08,
+                  ease: [0.16, 1, 0.3, 1],
                 }}
-                className="group grid gap-6 border-t py-8 sm:gap-8 sm:py-10 lg:grid-cols-[80px_180px_1fr] lg:gap-12"
-                style={{
-                  borderColor: "var(--border)",
-                }}
+                onMouseMove={handleMove}
+                onMouseLeave={() => setSpot((s) => ({ ...s, active: false }))}
+                className="group relative overflow-hidden rounded-2xl border border-white/10 bg-[#0d0d0f] p-6 transition-colors duration-300 hover:border-white/25 sm:p-8"
               >
-                <span
-                  className="text-xs sm:text-sm"
+                {/* Cursor-following spotlight */}
+                <div
+                  aria-hidden="true"
+                  className="pointer-events-none absolute inset-0 transition-opacity duration-300"
                   style={{
-                    color: "var(--accent)",
+                    opacity: spot.active ? 1 : 0,
+                    background: `radial-gradient(360px circle at ${spot.x}px ${spot.y}px, rgba(255,255,255,0.06), transparent 65%)`,
                   }}
+                />
+
+                {/* Timeline Node Dot */}
+                <span
+                  aria-hidden="true"
+                  className="absolute -left-[25px] top-8 flex h-3.5 w-3.5 items-center justify-center rounded-full border border-white/40 bg-[#050505] sm:-left-[33px]"
+                >
+                  <span className="h-1.5 w-1.5 rounded-full bg-white" />
+                </span>
+
+                {/* Watermark Index */}
+                <span
+                  aria-hidden="true"
+                  className="pointer-events-none absolute bottom-1 right-4 select-none font-display text-8xl font-extrabold leading-none text-white/[0.035]"
                 >
                   {item.number}
                 </span>
 
-                <div className="flex flex-row items-center gap-4 sm:flex-col sm:items-start sm:gap-2">
-                  <span
-                    className="text-[10px] uppercase tracking-[0.18em] sm:text-xs sm:tracking-[0.2em]"
-                    style={{
-                      color: "var(--muted)",
-                    }}
-                  >
-                    {item.period}
-                  </span>
+                <div className="relative z-10">
+                  <div className="flex flex-wrap items-center justify-between gap-3">
+                    <span className="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/[0.04] px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.2em] text-white">
+                      <span className="h-1.5 w-1.5 rounded-full bg-white" />
+                      {item.type}
+                    </span>
 
-                  <span
-                    className="text-[9px] uppercase tracking-[0.22em] sm:tracking-[0.25em]"
-                    style={{
-                      color: "var(--accent)",
-                    }}
-                  >
-                    {item.type}
-                  </span>
-                </div>
+                    <span className="font-mono text-xs uppercase tracking-[0.16em] text-[#8a8a8e]">
+                      {item.period}
+                    </span>
+                  </div>
 
-                <div>
-                  <h3
-                    className="text-2xl font-medium tracking-tight transition-transform duration-500 group-hover:translate-x-2 sm:text-3xl lg:text-4xl"
-                    style={{
-                      color: "var(--foreground)",
-                    }}
-                  >
+                  <h3 className="mt-5 font-display text-2xl font-extrabold tracking-tight text-white sm:text-3xl">
                     {item.role}
                   </h3>
 
-                  <p
-                    className="mt-2 text-xs uppercase tracking-[0.12em] sm:text-sm sm:tracking-[0.15em]"
-                    style={{
-                      color: "var(--secondary)",
-                    }}
-                  >
+                  <p className="mt-1.5 text-xs font-semibold uppercase tracking-[0.2em] text-[#d4d4d8]">
                     {item.company}
                   </p>
 
-                  <p
-                    className="mt-4 max-w-xl text-sm leading-7 sm:mt-5"
-                    style={{
-                      color: "var(--muted)",
-                    }}
-                  >
+                  <p className="mt-4 max-w-xl text-sm leading-7 text-[#8a8a8e]">
                     {item.description}
                   </p>
                 </div>
-              </motion.div>
+              </motion.article>
             ))}
           </div>
-
-          <div
-            className="border-t pt-7 sm:pt-8"
-            style={{
-              borderColor: "var(--border)",
-            }}
-          >
-            <Link
-              href="/experience"
-              className="inline-flex items-center gap-4 text-xs uppercase tracking-[0.18em] transition-transform duration-300 hover:translate-x-2 sm:text-sm sm:tracking-[0.2em]"
-              style={{
-                color: "var(--foreground)",
-              }}
-            >
-              <span>View experience</span>
-
-              <span
-                style={{
-                  color: "var(--accent)",
-                }}
-              >
-                →
-              </span>
-            </Link>
-          </div>
-        </motion.div>
+        </div>
       </div>
     </section>
   );

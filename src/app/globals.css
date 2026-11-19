@@ -1,41 +1,67 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-  --primary: #2563eb;
-  --secondary: #64748b;
-  --accent: #38bdf8;
-  --muted: #64748b;
-  --border: #cbd5e1;
+@theme inline {
+  --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+  --font-display: var(--font-jakarta), ui-sans-serif, system-ui, sans-serif;
 }
 
-* {
+:root {
+  color-scheme: dark;
+
+  /* New Monochrome Editorial Design Tokens */
+  --bg-canvas: #050505;
+  --bg-surface: #111113;
+  --bg-elevated: #18181b;
+  --text-primary: #ffffff;
+  --text-muted: #8a8a8e;
+  --border-subtle: rgba(255, 255, 255, 0.1);
+  --border-hover: rgba(255, 255, 255, 0.25);
+
+  /* Temporary aliases so un-migrated inner pages stay dark & readable */
+  --background: #050505;
+  --background-secondary: #111113;
+  --foreground: #ffffff;
+  --primary: #ffffff;
+  --secondary: #8a8a8e;
+  --accent: #ffffff;
+  --muted: #8a8a8e;
+  --border: rgba(255, 255, 255, 0.12);
+}
+
+*,
+*::before,
+*::after {
   box-sizing: border-box;
 }
 
 html {
   scroll-behavior: smooth;
+  background-color: var(--bg-canvas);
 }
 
 body {
   min-height: 100vh;
   margin: 0;
-  background:
+  background-color: var(--bg-canvas);
+  color: var(--text-primary);
+  overflow-x: hidden;
+}
+
+/* Soft charcoal ink/watercolor wash matching your reference */
+.ink-backdrop {
+  background-color: var(--bg-canvas);
+  background-image:
     radial-gradient(
-      circle at 20% 20%,
-      var(--glow, transparent),
-      transparent 35%
+      ellipse 55% 60% at 62% 48%,
+      rgba(48, 48, 52, 0.55) 0%,
+      rgba(22, 22, 25, 0.35) 45%,
+      rgba(5, 5, 5, 0) 75%
     ),
-    linear-gradient(
-      135deg,
-      var(--background),
-      var(--background-secondary, var(--background))
+    radial-gradient(
+      ellipse 40% 45% at 28% 58%,
+      rgba(34, 34, 38, 0.45) 0%,
+      rgba(5, 5, 5, 0) 70%
     );
-  color: var(--foreground);
-  transition:
-    background 700ms ease,
-    color 500ms ease;
 }
 
 button,
@@ -44,7 +70,7 @@ a {
 }
 
 :focus-visible {
-  outline: 2px solid var(--accent);
+  outline: 2px solid #ffffff;
   outline-offset: 4px;
 }
 
@@ -54,38 +80,8 @@ button:focus-visible {
 }
 
 ::selection {
-  background: var(--accent);
-  color: var(--background);
-}
-
-@keyframes lightning-flash {
-  0% {
-    opacity: 0;
-  }
-
-  12% {
-    opacity: 0.45;
-  }
-
-  20% {
-    opacity: 0.08;
-  }
-
-  30% {
-    opacity: 0.65;
-  }
-
-  42% {
-    opacity: 0.12;
-  }
-
-  100% {
-    opacity: 0;
-  }
-}
-
-.lightning-flash {
-  animation: lightning-flash 700ms ease-out;
+  background: #ffffff;
+  color: #050505;
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -100,107 +96,5 @@ button:focus-visible {
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
     scroll-behavior: auto !important;
-  }
-}
-
-@media (pointer: fine) {
-  html.custom-cursor-active,
-  html.custom-cursor-active body,
-  html.custom-cursor-active * {
-    cursor: none !important;
-  }
-}
-
-@media (pointer: fine) {
-  html.monsoon-cursor,
-  html.monsoon-cursor body,
-  html.monsoon-cursor a,
-  html.monsoon-cursor button,
-  html.monsoon-cursor input,
-  html.monsoon-cursor textarea,
-  html.monsoon-cursor select {
-    cursor: url("/cursors/umbrella-cursor.png") 20 10, auto;
-  }
-}
-
-@media (pointer: fine) {
-  html.monsoon-cursor,
-  html.monsoon-cursor body,
-  html.monsoon-cursor a,
-  html.monsoon-cursor button,
-  html.monsoon-cursor input,
-  html.monsoon-cursor textarea,
-  html.monsoon-cursor select {
-    cursor: url("/cursors/umbrella-cursor.png") 20 10, auto;
-  }
-
-  html.cherry-blossom-cursor,
-  html.cherry-blossom-cursor body,
-  html.cherry-blossom-cursor a,
-  html.cherry-blossom-cursor button,
-  html.cherry-blossom-cursor input,
-  html.cherry-blossom-cursor textarea,
-  html.cherry-blossom-cursor select {
-    cursor: url("/cursors/cherry-arrow.svg") 7 3, auto;
-  }
-}
-
-@media (pointer: fine) {
-  html.summer-cursor,
-  html.summer-cursor body,
-  html.summer-cursor a,
-  html.summer-cursor button,
-  html.summer-cursor input,
-  html.summer-cursor textarea,
-  html.summer-cursor select {
-    cursor: url("/cursors/summer-handkerchief-cursor.png") 48 4, auto;
-  }
-}
-
-@media (pointer: fine) {
-  html.winter-cursor,
-  html.winter-cursor body,
-  html.winter-cursor a,
-  html.winter-cursor button,
-  html.winter-cursor input,
-  html.winter-cursor textarea,
-  html.winter-cursor select {
-    cursor: url("/cursors/winter-snowman-cursor.png") 24 24, auto;
-  }
-}
-
-@media (pointer: fine) {
-  html.nature-cursor,
-  html.nature-cursor body,
-  html.nature-cursor a,
-  html.nature-cursor button,
-  html.nature-cursor input,
-  html.nature-cursor textarea,
-  html.nature-cursor select {
-    cursor: url("/cursors/nature-arrow.svg") 7 3, auto;
-  }
-}
-
-@media (pointer: fine) {
-  html.tech-cursor,
-html.tech-cursor body,
-html.tech-cursor a,
-html.tech-cursor button,
-html.tech-cursor input,
-html.tech-cursor textarea,
-html.tech-cursor select {
-  cursor: url("/cursors/tech-mouse-cursor.png") 14 12, auto;
-}
-}
-
-@media (pointer: fine) {
-  html.ai-cursor,
-  html.ai-cursor body,
-  html.ai-cursor a,
-  html.ai-cursor button,
-  html.ai-cursor input,
-  html.ai-cursor textarea,
-  html.ai-cursor select {
-    cursor: url("/cursors/ai-robot-cursor.png") 8 8, auto;
   }
 }

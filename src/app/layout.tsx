@@ -1,13 +1,23 @@
 import type { Metadata } from "next";
+import { Inter, Plus_Jakarta_Sans } from "next/font/google";
 import { SiteFooter } from "@/components/layout/SiteFooter";
 import { SiteHeader } from "@/components/layout/SiteHeader";
-import { ThemeProvider } from "@/themes/ThemeProvider";
-import { Atmosphere } from "@/components/effects/Atmosphere";
-import { MonsoonScene } from "@/features/themes/monsoon";
 import { PageTransition } from "@/components/layout/PageTransition";
-import { SeasonalCursor } from "@/components/cursor/SeasonalCursor";
 import { PersonSchema } from "@/components/seo/PersonSchema";
 import "./globals.css";
+
+const inter = Inter({
+  subsets: ["latin"],
+  variable: "--font-inter",
+  display: "swap",
+});
+
+const plusJakarta = Plus_Jakarta_Sans({
+  subsets: ["latin"],
+  weight: ["600", "700", "800"],
+  variable: "--font-jakarta",
+  display: "swap",
+});
 
 const siteUrl = "https://himeshroy.vercel.app";
 
@@ -15,8 +25,7 @@ export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
 
   title: {
-    default:
-      "Himesh Roy | Full-Stack Developer & AI/ML Student",
+    default: "Himesh Roy | Full-Stack Developer & AI/ML Student",
     template: "%s | Himesh Roy",
   },
 
@@ -56,11 +65,8 @@ export const metadata: Metadata = {
 
   creator: "Himesh Roy",
   publisher: "Himesh Roy",
-
   category: "technology",
-
   applicationName: "Himesh Roy Portfolio",
-
   referrer: "origin-when-cross-origin",
 
   verification: {
@@ -72,12 +78,7 @@ export const metadata: Metadata = {
   },
 
   icons: {
-    icon: [
-      {
-        url: "/icon.png",
-        type: "image/png",
-      },
-    ],
+    icon: [{ url: "/icon.png", type: "image/png" }],
     shortcut: "/icon.png",
     apple: "/icon.png",
   },
@@ -87,40 +88,30 @@ export const metadata: Metadata = {
     locale: "en_IN",
     url: siteUrl,
     siteName: "Himesh Roy",
-
-    title:
-      "Himesh Roy | Full-Stack Developer & AI/ML Student",
-
+    title: "Himesh Roy | Full-Stack Developer & AI/ML Student",
     description:
       "Portfolio of Himesh Roy — B.Tech CSE AI & ML student, IEEE Student Member, Full-Stack Developer, and builder of modern web applications and AI-powered products.",
-
     images: [
       {
         url: "/og-image.png",
         width: 1200,
         height: 630,
-        alt:
-          "Himesh Roy — Full-Stack Developer & AI/ML Student",
+        alt: "Himesh Roy — Full-Stack Developer & AI/ML Student",
       },
     ],
   },
 
   twitter: {
     card: "summary_large_image",
-
-    title:
-      "Himesh Roy | Full-Stack Developer & AI/ML Student",
-
+    title: "Himesh Roy | Full-Stack Developer & AI/ML Student",
     description:
       "Himesh Roy's portfolio — Full-Stack Developer and B.Tech CSE AI & ML student building modern web applications and AI-powered products.",
-
     images: ["/og-image.png"],
   },
 
   robots: {
     index: true,
     follow: true,
-
     googleBot: {
       index: true,
       follow: true,
@@ -137,23 +128,17 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body>
-        <ThemeProvider>
-          <PersonSchema />
-
-          <SeasonalCursor />
-          <MonsoonScene />
-          <Atmosphere />
-
-          <SiteHeader />
-
-          <main>
-            <PageTransition>{children}</PageTransition>
-          </main>
-
-          <SiteFooter />
-        </ThemeProvider>
+    <html
+      lang="en"
+      className={`${inter.variable} ${plusJakarta.variable} dark`}
+    >
+      <body className="bg-[#050505] text-white font-sans antialiased selection:bg-white selection:text-[#050505]">
+        <PersonSchema />
+        <SiteHeader />
+        <main className="min-h-screen">
+          <PageTransition>{children}</PageTransition>
+        </main>
+        <SiteFooter />
       </body>
     </html>
   );
