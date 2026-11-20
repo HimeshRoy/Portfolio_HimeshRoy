@@ -88,7 +88,7 @@ export const projects: Project[] = [
       "Framer Motion",
     ],
     github: "https://github.com/HimeshRoy/portfolio-himeshRoy",
-    live: "https://himeshroy.vercel.app/",
+    live: "https://himeshroy.dev/",
   },
   {
     slug: "mirth-maker",

@@ -20,6 +20,7 @@ const plusJakarta = Plus_Jakarta_Sans({
 });
 
 const siteUrl = "https://himeshroy.dev";
+const siteName = "Himesh Roy · Portfolio";
 const ogImage = "/og-image.png";
 
 const socialProfiles = [
@@ -79,7 +80,7 @@ export const metadata: Metadata = {
   creator: "Himesh Roy",
   publisher: "Himesh Roy",
   category: "technology",
-  applicationName: "Himesh Roy Portfolio",
+  applicationName: siteName,
   referrer: "origin-when-cross-origin",
 
   verification: {
@@ -87,20 +88,14 @@ export const metadata: Metadata = {
   },
 
   alternates: {
-    canonical: siteUrl,
-  },
-
-  icons: {
-    icon: [{ url: "/icon.png", type: "image/png" }],
-    shortcut: "/icon.png",
-    apple: "/icon.png",
+    canonical: "./",
   },
 
   openGraph: {
     type: "website",
     locale: "en_IN",
     url: siteUrl,
-    siteName: "Himesh Roy",
+    siteName,
 
     title: "Himesh Roy | Full-Stack & AI Developer",
 
@@ -149,28 +144,40 @@ export const metadata: Metadata = {
   },
 };
 
-const personSchema = {
+const structuredData = {
   "@context": "https://schema.org",
-  "@type": "Person",
-  name: "Himesh Roy",
-  url: siteUrl,
-  image: `${siteUrl}/images/himesh-avatar-3d.png`,
-  jobTitle: "Full-Stack Developer",
-  description:
-    "B.Tech CSE (AI & ML) student at Geeta University, IEEE Student Member and Full-Stack Developer building modern web applications and intelligent systems.",
-  email: "himeshroy.cse@gmail.com",
-  sameAs: socialProfiles,
-  knowsAbout: [
-    "Full-Stack Development",
-    "Artificial Intelligence",
-    "Machine Learning",
-    "React",
-    "Next.js",
-    "Node.js",
-    "TypeScript",
-    "Python",
-    "PostgreSQL",
-    "Web Development",
+  "@graph": [
+    {
+      "@type": "WebSite",
+      "@id": `${siteUrl}/#website`,
+      name: siteName,
+      alternateName: ["Himesh Roy", "Himesh Roy · Portfolio", "Himesh Roy Portfolio", "himeshroy.dev"],
+      url: `${siteUrl}/`,
+    },
+    {
+      "@type": "Person",
+      "@id": `${siteUrl}/#person`,
+      name: "Himesh Roy",
+      url: siteUrl,
+      image: `${siteUrl}/images/himesh-avatar-3d.png`,
+      jobTitle: "Full-Stack Developer",
+      description:
+        "B.Tech CSE (AI & ML) student at Geeta University, IEEE Student Member and Full-Stack Developer building modern web applications and intelligent systems.",
+      email: "himeshroy.cse@gmail.com",
+      sameAs: socialProfiles,
+      knowsAbout: [
+        "Full-Stack Development",
+        "Artificial Intelligence",
+        "Machine Learning",
+        "React",
+        "Next.js",
+        "Node.js",
+        "TypeScript",
+        "Python",
+        "PostgreSQL",
+        "Web Development",
+      ],
+    },
   ],
 };
 
@@ -188,7 +195,7 @@ export default function RootLayout({
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
-            __html: JSON.stringify(personSchema).replace(/</g, "\\u003c"),
+            __html: JSON.stringify(structuredData).replace(/</g, "\\u003c"),
           }}
         />
 
