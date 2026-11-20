@@ -5,10 +5,10 @@ export function PersonSchema() {
 
     "mainEntity": {
       "@type": "Person",
-      "@id": "https://himeshroy.vercel.app/#person",
+      "@id": "https://himeshroy.dev/#person",
 
       "name": "Himesh Roy",
-      "url": "https://himeshroy.vercel.app/",
+      "url": "https://himeshroy.dev/",
       "jobTitle": "Full Stack Developer",
 
       "description":

@@ -19,7 +19,7 @@ const plusJakarta = Plus_Jakarta_Sans({
   display: "swap",
 });
 
-const siteUrl = "https://himeshroy.vercel.app";
+const siteUrl = "https://himeshroy.dev";
 const ogImage = "/og-image.png";
 
 const socialProfiles = [

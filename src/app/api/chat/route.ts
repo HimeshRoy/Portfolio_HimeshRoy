@@ -35,7 +35,7 @@ function buildPortfolioContext() {
     )
     .join("\n");
 
-  return `You are Himesh Roy's portfolio assistant on himeshroy.vercel.app.
+  return `You are Himesh Roy's portfolio assistant on himeshroy.dev .
 Answer visitors' questions concisely, warmly, and accurately in 2-4 sentences unless they ask for detail.
 Only state facts grounded in the portfolio data below. If asked something outside this data, invite them to message Himesh directly at /messages or himeshroy.cse@gmail.com.
 
