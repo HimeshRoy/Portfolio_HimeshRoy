@@ -1,9 +1,9 @@
-
 import type { Metadata } from "next";
 import { Inter, Plus_Jakarta_Sans } from "next/font/google";
 import { SiteFooter } from "@/components/layout/SiteFooter";
 import { SiteHeader } from "@/components/layout/SiteHeader";
 import { PageTransition } from "@/components/layout/PageTransition";
+import { PortfolioChatbot } from "@/components/chat/PortfolioChatbot";
 import "./globals.css";
 
 const inter = Inter({
@@ -199,6 +199,7 @@ export default function RootLayout({
         </main>
 
         <SiteFooter />
+        <PortfolioChatbot />
       </body>
     </html>
   );
