@@ -21,8 +21,7 @@ const plusJakarta = Plus_Jakarta_Sans({
 
 const siteUrl = "https://himeshroy.dev";
 const siteName = "Himesh Roy · Portfolio";
-const ogImage = "/og-image.png";
-
+const searchImage = "/images/search-thumbnail.jpeg";
 const socialProfiles = [
   "https://www.linkedin.com/in/himeshroy",
   "https://github.com/himeshroy",
@@ -104,10 +103,9 @@ export const metadata: Metadata = {
 
     images: [
       {
-        url: ogImage,
+        url: searchImage,
         width: 1200,
         height: 630,
-        type: "image/png",
         alt: "Himesh Roy — Full-Stack & AI Developer",
       },
     ],
@@ -122,7 +120,7 @@ export const metadata: Metadata = {
 
     images: [
       {
-        url: ogImage,
+        url: searchImage,
         alt: "Himesh Roy — Full-Stack & AI Developer",
       },
     ],
@@ -151,15 +149,27 @@ const structuredData = {
       "@type": "WebSite",
       "@id": `${siteUrl}/#website`,
       name: siteName,
-      alternateName: ["Himesh Roy", "Himesh Roy · Portfolio", "Himesh Roy Portfolio", "himeshroy.dev"],
+      alternateName: ["Himesh Roy Portfolio", "Himesh Roy"],
       url: `${siteUrl}/`,
+    },
+    {
+      "@type": "WebPage",
+      "@id": `${siteUrl}/#webpage`,
+      url: `${siteUrl}/`,
+      name: "Himesh Roy | Full-Stack Developer & AI/ML Student",
+      isPartOf: { "@id": `${siteUrl}/#website` },
+      primaryImageOfPage: {
+        "@type": "ImageObject",
+        url: `${siteUrl}${searchImage}`,
+      },
+      thumbnailUrl: `${siteUrl}${searchImage}`,
     },
     {
       "@type": "Person",
       "@id": `${siteUrl}/#person`,
       name: "Himesh Roy",
       url: siteUrl,
-      image: `${siteUrl}/images/himesh-avatar-3d.png`,
+      image: `${siteUrl}${searchImage}`,
       jobTitle: "Full-Stack Developer",
       description:
         "B.Tech CSE (AI & ML) student at Geeta University, IEEE Student Member and Full-Stack Developer building modern web applications and intelligent systems.",
